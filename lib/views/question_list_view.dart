@@ -30,8 +30,8 @@ class _QuestionListViewState extends State<QuestionListView> {
           return Card(
             color: Colors.grey[200],
             child: ListTile(
-              title: Text(word.term),
-              subtitle: Text(word.definition),
+            title: Text(word.term),
+            subtitle: Text(word.definition),
               trailing: Wrap(
                 spacing: 8, // アイコンの間の幅を調整
                 children: [
@@ -63,7 +63,7 @@ class _QuestionListViewState extends State<QuestionListView> {
                   ),
                 ],
               ),
-              onTap: () =>
+            onTap: () =>
                 //Navigator.pushNamed(context, '/detail', arguments: word),
                 Navigator.pushNamed(context, '/word_answer'),
             ),
