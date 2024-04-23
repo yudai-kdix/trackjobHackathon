@@ -3,6 +3,8 @@ class Word{
   String term;
   String definition;
   List<String> tags;
+  bool judge1;
+  bool judge2;
   bool isMemorized;
 
   Word(
@@ -10,6 +12,8 @@ class Word{
       required this.term,
       required this.definition,
       required this.tags,
+      required this.judge1,
+      required this.judge2,
       this.isMemorized = false});
 
   Map<String, dynamic> toMap() {
@@ -31,6 +35,8 @@ class Word{
       term: map['term'],
       definition: map['definition'],
       tags: map['tags'].split(','), // カンマ区切りの文字列をリストに変換
+      judge1: map['judge1'],
+      judge2: map['judge2'],
       isMemorized: map['isMemorized'] == 1,
     );
   }
