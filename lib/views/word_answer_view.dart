@@ -3,17 +3,29 @@ import 'package:flutter/widgets.dart';
 import 'package:trackjob2024/models/word.dart';
 
 class WordAnswerView extends StatefulWidget {
-  const WordAnswerView({Key? key}) : super(key: key);
+  final List<String> checkList;
+  final bool flag1;
+  final bool flag2;
+  const WordAnswerView({Key? key, required this.checkList, required this.flag1, required this.flag2}) : super(key: key);
 
   @override
   _WordAnswerViewState createState() => _WordAnswerViewState();
 }
 
 class _WordAnswerViewState extends State<WordAnswerView> {
-  Word word = Word(term: 'Example', definition: 'これは例です', tags: ['Tag1', 'Tag2'], judge1: true, judge2: true);
+  late List<String> W;
+  late bool f1;
+  late bool f2;
+  //Word word = Word(term: 'Example', definition: 'これは例です', tags: ['Tag1', 'Tag2'], judge1: true, judge2: true);
   bool ansORques = true;
 
   @override
+  void initState() {
+    super.initState();
+    W = widget.checkList;
+    f1 = widget.flag1;
+    f2 = widget.flag2;
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -36,24 +48,24 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                     trailing: Wrap(
                       spacing: 8, // アイコンの間の幅を調整
                       children: [
-                        IconButton(
+                       IconButton(
                           icon: Icon(
-                            word.judge1 ? Icons.check_box_outlined : Icons.check_box_rounded,
+                            f1 ? Icons.check_box_outlined : Icons.check_box_rounded,
                             ),
                           onPressed: () {
                             setState(() {
-                              word.judge1 = !word.judge1;
+                              f1 = !f1;
                             });
                           },
                         ),
                         IconButton(
                           icon: Icon(
-                            word.judge2 ? Icons.bookmark_outline_outlined : Icons.bookmark_outlined,
+                            f2 ? Icons.bookmark_outline_outlined : Icons.bookmark_outlined,
                             ),
                           onPressed: () {
                             setState(() {
-                              word.judge2 = !word.judge2;
-                            });
+                              f2 = !f2;
+                           });
                           },
                         ),
                         IconButton(
@@ -73,7 +85,7 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                 ),
                 Align(
                   alignment: Alignment.center,
-                  child: ansORques ? Text(style: TextStyle(fontSize: 50),word.term) : Text(style: TextStyle(fontSize: 50),word.definition),
+                  child: ansORques ? Text(style: TextStyle(fontSize: 50),W[0]) : Text(style: TextStyle(fontSize: 50),W[1]),
                 ),
               ],
             ),
@@ -82,7 +94,7 @@ class _WordAnswerViewState extends State<WordAnswerView> {
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () => Navigator.pushNamed(context, '/addWord'),
+        onPressed: () => Navigator.pushNamed(context, '/word_add'),
       ),
     );
   }
