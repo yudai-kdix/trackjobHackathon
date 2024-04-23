@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trackjob2024/views/question_list_view.dart';
+import 'package:trackjob2024/views/word_answer_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         // '/settings': (context) => SettingsView(), // 設定画面
         '/word_list': (context) => QuestionListView(), // 単語一覧画面
         // '/word_add':(context) => WordAddView(), // 単語追加画面
-        // '/word_answer': (context) => WordAnswerView(), // 単語回答画面
+        '/word_answer': (context) => WordAnswerView(), // 単語回答画面
         // 'word_detail': (context) => WordDetailView(), // 単語詳細画面
         
       },
@@ -99,6 +100,22 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+
+
+            ElevatedButton(
+              child: Text("word list"),
+              onPressed: () {
+                Navigator.pushNamed(context, '/word_list');
+              },
+            ),
+            ElevatedButton(
+              child: Text("word answer"),
+              onPressed: () {
+                Navigator.pushNamed(context, '/word_answer');
+              },
+            ),
+
+            
             const Text(
               'You have pushed the button this many times:',
             ),
