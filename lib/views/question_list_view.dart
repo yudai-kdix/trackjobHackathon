@@ -18,12 +18,58 @@ class _QuestionListViewState extends State<QuestionListView> {
     // 他の単語データ
   ];
 
+  var _city = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_outlined),
+          onPressed: () => Navigator.pushNamed(context, '/'),
+        ),
         title: const Text('単語と質問の一覧'),
       ),
+      endDrawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            SizedBox(
+              height: 80,
+              child: DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                ),
+                child: Text(
+                  'メニュー',
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text('ホーム'),
+              onTap: () {
+                Navigator.pushNamed(context, '/');
+              },
+            ),
+            ListTile(
+              title: Text('単語一覧'),
+              onTap: () {
+                Navigator.pushNamed(context, '/word_list');
+              },
+            ),
+            ListTile(
+              title: Text('単語の追加'),
+              onTap: () {
+                Navigator.pushNamed(context, '/word_add');
+              },
+            ),
+          ],
+        ),
+      ),
+        
       body: ListView.builder(
         itemCount: words.length,
         itemBuilder: (context, index) {

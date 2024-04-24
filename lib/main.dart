@@ -73,6 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         // TRY THIS: Try changing the color here to a specific color (to
         // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
         // change color while the other colors stay the same.
@@ -80,6 +81,45 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+      ),
+      endDrawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            SizedBox(
+              height: 80,
+              child: DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                ),
+                child: Text(
+                  'メニュー',
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text('ホーム'),
+              onTap: () {
+                Navigator.pushNamed(context, '/');
+              },
+            ),
+            ListTile(
+              title: Text('単語一覧'),
+              onTap: () {
+                Navigator.pushNamed(context, '/word_list');
+              },
+            ),
+            ListTile(
+              title: Text('単語の追加'),
+              onTap: () {
+                Navigator.pushNamed(context, '/word_add');
+              },
+            ),
+          ],
+        ),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
