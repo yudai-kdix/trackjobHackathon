@@ -28,7 +28,7 @@ class _QuestionListViewState extends State<QuestionListView> {
         itemCount: words.length,
         itemBuilder: (context, index) {
           Word word = words[index];
-          List<String> W = [word.term, word.definition];
+          int id = index;
           return Card(
             color: Colors.grey[200],
             child: ListTile(
@@ -67,7 +67,7 @@ class _QuestionListViewState extends State<QuestionListView> {
               ),
               onTap: () =>
                 //Navigator.pushNamed(context, '/detail', arguments: word),
-                Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: List.of(W), flag1: word.judge1, flag2: word.judge2)),
+                Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: id)),
               ),
             ),
           );

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:trackjob2024/views/question_list_view.dart';
-import 'package:trackjob2024/views/word_answer_view.dart';
 import 'package:trackjob2024/views/add_word_view.dart';
 
 void main() {

@@ -3,94 +3,149 @@ import 'package:flutter/widgets.dart';
 import 'package:trackjob2024/models/word.dart';
 
 class WordAnswerView extends StatefulWidget {
-  final List<String> checkList;
-  final bool flag1;
-  final bool flag2;
-  const WordAnswerView({Key? key, required this.checkList, required this.flag1, required this.flag2}) : super(key: key);
+  final int checkList;
+  //final bool flag1;
+  //final bool flag2;
+  const WordAnswerView({Key? key, required this.checkList}) : super(key: key);
 
   @override
   _WordAnswerViewState createState() => _WordAnswerViewState();
 }
 
 class _WordAnswerViewState extends State<WordAnswerView> {
-  late List<String> W;
-  late bool f1;
-  late bool f2;
-  //Word word = Word(term: 'Example', definition: 'これは例です', tags: ['Tag1', 'Tag2'], judge1: true, judge2: true);
+  final List<Word> words = [
+    Word(term: 'Example', definition: 'これは例です', tags: ['Tag1', 'Tag2'], judge1: true, judge2: true),
+    Word(term: 'Example2', definition: 'これは例です', tags: ['Tag1', 'Tag2'], judge1: true, judge2: true),
+    Word(term: 'Example3', definition: 'これは例です', tags: ['Tag1', 'Tag2'], judge1: true, judge2: true),
+    Word(term: 'Example4', definition: 'これは例です', tags: ['Tag1', 'Tag2'], judge1: true, judge2: true),
+    // 他の単語データ
+  ];
+
+  late int id;
   bool ansORques = true;
 
   @override
   void initState() {
     super.initState();
-    W = widget.checkList;
-    f1 = widget.flag1;
-    f2 = widget.flag2;
+    id = widget.checkList;
+    //f1 = widget.flag1;
+    //f2 = widget.flag2;
   }
   Widget build(BuildContext context) {
+    String Term = words[id].term;
+    String Difinition = words[id].definition;
+    List <String>Tags = words[id].tags;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('質問と答え'),
       ),
-      body: SizedBox(
-        height: 500,
-        child: InkWell(
-          onTap: () {
-            setState(() {
-              ansORques = !ansORques;
-            });
-          },
-          child: Card(
-            color: Colors.grey[200],
-            child: Column(
-              children: [
-                Container(
-                  child: ListTile(
-                    trailing: Wrap(
-                      spacing: 8, // アイコンの間の幅を調整
-                      children: [
-                       IconButton(
-                          icon: Icon(
-                            f1 ? Icons.check_box_outlined : Icons.check_box_rounded,
+      body: Column(
+        children: <Widget>[
+          SizedBox(
+            height: 500,
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  ansORques = !ansORques;
+                });
+              },
+              child: Card(
+                color: Colors.grey[200],
+                child: Column(
+                  children: [
+                    Container(
+                      child: ListTile(
+                        trailing: Wrap(
+                          spacing: 8, // アイコンの間の幅を調整
+                          children: [
+                          IconButton(
+                              icon: Icon(
+                                words[id].judge1 ? Icons.check_box_outlined : Icons.check_box_rounded,
+                                ),
+                              onPressed: () {
+                                setState(() {                   
+                                  words[id].judge1 = !words[id].judge1;
+                                });
+                              },
                             ),
-                          onPressed: () {
-                            setState(() {
-                              f1 = !f1;
-                            });
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            f2 ? Icons.bookmark_outline_outlined : Icons.bookmark_outlined,
+                            IconButton(
+                              icon: Icon(
+                                words[id].judge2 ? Icons.bookmark_outline_outlined : Icons.bookmark_outlined,
+                                ),
+                              onPressed: () {
+                                setState(() {
+                                  words[id].judge2 = !words[id].judge2;
+                              });
+                              },
                             ),
-                          onPressed: () {
-                            setState(() {
-                              f2 = !f2;
-                           });
-                          },
+                            IconButton(
+                              icon: Icon(Icons.border_color_outlined),
+                              onPressed: () {
+                                //onpress action
+                            //onTap: () =>
+                              //Navigator.pushNamed(context, '/detail', arguments: word),
+                              },
+                            ),
+                          ],
                         ),
-                        IconButton(
-                          icon: Icon(Icons.border_color_outlined),
-                          onPressed: () {
-                            //onpress action
-                        //onTap: () =>
-                          //Navigator.pushNamed(context, '/detail', arguments: word),
-                          },
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                    SizedBox(
+                      height: 150,
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: ansORques ? Text(style: TextStyle(fontSize: 50),Term) : Text(style: TextStyle(fontSize: 50),Difinition),
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  height: 150,
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: ansORques ? Text(style: TextStyle(fontSize: 50),W[0]) : Text(style: TextStyle(fontSize: 50),W[1]),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
+          SizedBox(
+            height: 120,
+            child: Card(
+              color: Colors.grey[200],
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    child: ListTile(
+                      trailing: Wrap(
+                        spacing: 8, // アイコンの間の幅を調整
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.border_color_outlined),
+                            onPressed: () {
+                                //onpress action
+                            //onTap: () =>
+                              //Navigator.pushNamed(context, '/detail', arguments: word),
+                              },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          
+                        ],
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      for (int i = 0; i < Tags.length; i++) ... {
+                        Text('#'),
+                        Text(Tags[i]),
+                        (i < Tags.length - 1) ? Text(','):Text(''),
+                        (i < Tags.length - 1) ? Text('    '):Text(''),
+                      },
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
