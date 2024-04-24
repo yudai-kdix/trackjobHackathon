@@ -12,15 +12,17 @@ class QuestionListView extends StatefulWidget {
 class _QuestionListViewState extends State<QuestionListView> {
   final List<Word> words = [
     Word(term: 'Example', definition: 'これは例です', tags: ['Tag1', 'Tag2'], judge1: true, judge2: true),
-    Word(term: 'Example2', definition: 'これは例です', tags: ['Tag1', 'Tag2'], judge1: true, judge2: true),
-    Word(term: 'Example3', definition: 'これは例です', tags: ['Tag1', 'Tag2'], judge1: true, judge2: true),
-    Word(term: 'Example4', definition: 'これは例です', tags: ['Tag1', 'Tag2'], judge1: true, judge2: true),
+    Word(term: 'Example2', definition: 'これは例です', tags: ['Tag3', 'Tag2'], judge1: true, judge2: true),
+    Word(term: 'Example3', definition: 'これは例です', tags: ['Tag1', 'Tag3'], judge1: true, judge2: true),
+    Word(term: 'Example4', definition: 'これは例です', tags: ['Tag1', 'Tag4'], judge1: true, judge2: true),
     // 他の単語データ
   ];
 
   var _city = '';
   bool flag1 = false;
   bool flag2 = false;
+  String text = "";
+  String search_tag = "";
 
   @override
   Widget build(BuildContext context) {
@@ -78,10 +80,40 @@ class _QuestionListViewState extends State<QuestionListView> {
             width: double.infinity, //横幅いっぱいを意味する
             color: Color.fromARGB(255, 221, 226, 233), //広がっているか色をつけて確認
             child: ListTile(
-
+              leading: Container(
+                width: 250,
+                height: 35,
+                margin: const EdgeInsets.only(bottom: 5),
+                child: TextFormField(
+                  onChanged: (value){
+                    text = value;
+                  },
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)), 
+                    labelText: 'tagを検索',
+                    fillColor: Color.fromARGB(255, 255, 255, 255),
+                    filled: true,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        Icons.arrow_circle_right_outlined,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          search_tag = text;
+                        });
+                      },
+                    ),
+                  ),
+                  //onSaved: (value) => ,
+                  validator: (value) => value == null || value.isEmpty
+                      ? 'Error'
+                      : null, //valueがnullまたは空（isEmptyがtrue）の場合には指定されたエラーメッセージを返し、それ以外の場合にはnullを返してバリデーションが成功したことを示す
+                ),
+              ),
               trailing: Wrap(
-                spacing: 8, // アイコンの間の幅を調整
+                spacing: 0, // アイコンの間の幅を調整
                 children: [
+                  
                   IconButton(
                     icon: Icon(
                       flag1 ? Icons.check_box_rounded : Icons.check_box_outlined,
@@ -118,7 +150,8 @@ class _QuestionListViewState extends State<QuestionListView> {
 
                 //チェックアイコンがあるものは表示せず、タグアイコンのあるものは表示する
                 (flag1 && !word.judge1) || (flag2 && word.judge2) ? JUDGE = false:JUDGE = true;
-                return JUDGE ? Card(
+                //タグ検索
+                return ((search_tag == "") || (word.tags.contains(search_tag))) && JUDGE ? Card(
                   color: Colors.grey[200],
                   child: ListTile(
                     title: Text(word.term),

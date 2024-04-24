@@ -15,9 +15,9 @@ class WordAnswerView extends StatefulWidget {
 class _WordAnswerViewState extends State<WordAnswerView> {
   final List<Word> words = [
     Word(term: 'Example', definition: 'これは例です', tags: ['Tag1', 'Tag2'], judge1: true, judge2: true),
-    Word(term: 'Example2', definition: 'これは例です', tags: ['Tag1', 'Tag2'], judge1: true, judge2: true),
-    Word(term: 'Example3', definition: 'これは例です', tags: ['Tag1', 'Tag2'], judge1: true, judge2: true),
-    Word(term: 'Example4', definition: 'これは例です', tags: ['Tag1', 'Tag2'], judge1: true, judge2: true),
+    Word(term: 'Example2', definition: 'これは例です', tags: ['Tag3', 'Tag2'], judge1: true, judge2: true),
+    Word(term: 'Example3', definition: 'これは例です', tags: ['Tag1', 'Tag3'], judge1: true, judge2: true),
+    Word(term: 'Example4', definition: 'これは例です', tags: ['Tag1', 'Tag4'], judge1: true, judge2: true),
     // 他の単語データ
   ];
 
