@@ -19,6 +19,8 @@ class _QuestionListViewState extends State<QuestionListView> {
   ];
 
   var _city = '';
+  bool flag1 = false;
+  bool flag2 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -69,55 +71,100 @@ class _QuestionListViewState extends State<QuestionListView> {
           ],
         ),
       ),
-        
-      body: ListView.builder(
-        itemCount: words.length,
-        itemBuilder: (context, index) {
-          Word word = words[index];
-          int id = index;
-          return Card(
-            color: Colors.grey[200],
+      body: Column(
+        children: <Widget>[
+          Container(
+            height: 50,
+            width: double.infinity, //横幅いっぱいを意味する
+            color: Color.fromARGB(255, 221, 226, 233), //広がっているか色をつけて確認
             child: ListTile(
-              title: Text(word.term),
-              subtitle: Text(word.definition),
+
               trailing: Wrap(
                 spacing: 8, // アイコンの間の幅を調整
                 children: [
                   IconButton(
                     icon: Icon(
-                      word.judge1 ? Icons.check_box_outlined : Icons.check_box_rounded,
+                      flag1 ? Icons.check_box_rounded : Icons.check_box_outlined,
                       ),
                     onPressed: () {
                       setState(() {
-                        word.judge1 = !word.judge1;
+                        flag1 = !flag1;
                       });
                     },
                   ),
                   IconButton(
                     icon: Icon(
-                      word.judge2 ? Icons.bookmark_outline_outlined : Icons.bookmark_outlined,
+                      flag2 ? Icons.bookmark_outlined : Icons.bookmark_outline_outlined,
                       ),
                     onPressed: () {
                       setState(() {
-                        word.judge2 = !word.judge2;
+                        flag2 = !flag2;
                       });
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.border_color_outlined),
-                    onPressed: () {
-                      //onpress action
                     },
                   ),
                 ],
               ),
-              onTap: () =>
-                //Navigator.pushNamed(context, '/detail', arguments: word),
-                Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: id)),
-              ),
             ),
-          );
-        },
+          ),
+          Flexible(
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: words.length,
+              itemBuilder: (context, index) {
+                Word word = words[index];
+                int id = index;
+                bool JUDGE = false;
+
+                //チェックアイコンがあるものは表示せず、タグアイコンのあるものは表示する
+                (flag1 && !word.judge1) || (flag2 && word.judge2) ? JUDGE = false:JUDGE = true;
+                return JUDGE ? Card(
+                  color: Colors.grey[200],
+                  child: ListTile(
+                    title: Text(word.term),
+                    subtitle: Text(word.definition),
+                    trailing: Wrap(
+                      spacing: 8, // アイコンの間の幅を調整
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            word.judge1 ? Icons.check_box_outlined : Icons.check_box_rounded,
+                            ),
+                          onPressed: () {
+                            setState(() {
+                              word.judge1 = !word.judge1;
+                            });
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            word.judge2 ? Icons.bookmark_outline_outlined : Icons.bookmark_outlined,
+                            ),
+                          onPressed: () {
+                            setState(() {
+                              word.judge2 = !word.judge2;
+                            });
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.border_color_outlined),
+                          onPressed: () {
+                            //onpress action
+                          },
+                        ),
+                      ],
+                    ),
+                    onTap: () =>
+                      //Navigator.pushNamed(context, '/detail', arguments: word),
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: id)),
+                    ),
+                  ),
+                ):SizedBox(height: 0);
+              },
+            ),
+          ),
+          
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
