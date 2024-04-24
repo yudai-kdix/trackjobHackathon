@@ -78,10 +78,23 @@ class _QuestionListViewState extends State<QuestionListView> {
             width: double.infinity, //横幅いっぱいを意味する
             color: Color.fromARGB(255, 221, 226, 233), //広がっているか色をつけて確認
             child: ListTile(
-
+              leading: TextFormField(
+                decoration: InputDecoration(
+                  border: InputBorder.none, 
+                  labelText: 'tag',
+                  fillColor: Colors.grey,
+                  filled: true,
+                  hintText: 'tag1,tag2,tag3,...',
+                ),
+                //onSaved: (value) => ,
+                validator: (value) => value == null || value.isEmpty
+                    ? 'tag1,tag2,tag3,...'
+                    : null, //valueがnullまたは空（isEmptyがtrue）の場合には指定されたエラーメッセージを返し、それ以外の場合にはnullを返してバリデーションが成功したことを示す
+              ),
               trailing: Wrap(
                 spacing: 8, // アイコンの間の幅を調整
                 children: [
+                  
                   IconButton(
                     icon: Icon(
                       flag1 ? Icons.check_box_rounded : Icons.check_box_outlined,
