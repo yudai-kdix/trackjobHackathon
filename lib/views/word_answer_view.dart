@@ -35,6 +35,8 @@ class _WordAnswerViewState extends State<WordAnswerView> {
     String Term = words[id].term;
     String Difinition = words[id].definition;
     List <String>Tags = words[id].tags;
+    int nex_id = id + 1;
+    int pre_id = id - 1;
 
     return Scaffold(
       appBar: AppBar(
@@ -43,7 +45,7 @@ class _WordAnswerViewState extends State<WordAnswerView> {
       body: Column(
         children: <Widget>[
           SizedBox(
-            height: 500,
+            height: 450,
             child: InkWell(
               onTap: () {
                 setState(() {
@@ -144,6 +146,23 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                 ],
               ),
             ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  (id > 0) ? Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: pre_id))):null;
+                },
+              ),
+              SizedBox(width: 200),
+              IconButton(
+                icon: Icon(Icons.arrow_forward_ios),
+                onPressed: () =>
+                  (id < words.length - 1) ? Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: nex_id))):null,
+              ),
+            ],
           ),
         ],
       ),
