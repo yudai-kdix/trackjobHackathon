@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trackjob2024/models/word.dart';
+import 'package:trackjob2024/views/word_answer_view.dart';
 
 
 class QuestionListView extends StatefulWidget {
@@ -28,6 +29,7 @@ class _QuestionListViewState extends State<QuestionListView> {
         itemCount: words.length,
         itemBuilder: (context, index) {
           Word word = words[index];
+          int id = index;
           return Card(
             color: Colors.grey[200],
             child: ListTile(
@@ -66,14 +68,15 @@ class _QuestionListViewState extends State<QuestionListView> {
               ),
               onTap: () =>
                 //Navigator.pushNamed(context, '/detail', arguments: word),
-                Navigator.pushNamed(context, '/word_answer'),
+                Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: id)),
+              ),
             ),
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () => Navigator.pushNamed(context, '/addWord'),
+        onPressed: () => Navigator.pushNamed(context, '/word_add'),
       ),
     );
   }
