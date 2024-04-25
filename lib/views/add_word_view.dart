@@ -27,7 +27,20 @@ class _AddWordScreenState extends State<AddWordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('単語を追加'),
+        title: RichText(
+          text: TextSpan(
+            children: [
+              WidgetSpan(
+                child: Icon(Icons.add_circle_outline),
+              ),
+              TextSpan(text: '   '),
+              TextSpan(
+                text: '単語の追加',
+                style: TextStyle(color: Colors.black, fontSize: 23),
+              ),
+            ],
+          ),
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.save),
@@ -54,21 +67,31 @@ class _AddWordScreenState extends State<AddWordScreen> {
               ),
             ),
             ListTile(
+              leading: Icon(Icons.home_outlined),
               title: Text('ホーム'),
               onTap: () {
                 Navigator.pushNamed(context, '/');
               },
             ),
             ListTile(
+              leading: Icon(Icons.content_copy_rounded),
               title: Text('単語一覧'),
               onTap: () {
                 Navigator.pushNamed(context, '/word_list');
               },
             ),
             ListTile(
+              leading: Icon(Icons.add_circle_outline),
               title: Text('単語の追加'),
               onTap: () {
                 Navigator.pushNamed(context, '/word_add');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings_outlined),
+              title: Text('設定'),
+              onTap: () {
+                Navigator.pushNamed(context, '/settings');
               },
             ),
           ],

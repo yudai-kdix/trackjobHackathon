@@ -3,10 +3,11 @@ import 'package:flutter/widgets.dart';
 import 'package:trackjob2024/models/word.dart';
 
 class WordAnswerView extends StatefulWidget {
-  final int checkList;
+  final List<int> checkList;
+  final int checkid;
   //final bool flag1;
   //final bool flag2;
-  const WordAnswerView({Key? key, required this.checkList}) : super(key: key);
+  const WordAnswerView({Key? key, required this.checkList, required this.checkid}) : super(key: key);
 
   @override
   _WordAnswerViewState createState() => _WordAnswerViewState();
@@ -21,13 +22,15 @@ class _WordAnswerViewState extends State<WordAnswerView> {
     // 他の単語データ
   ];
 
+  late List<int> id_box;
   late int id;
   bool ansORques = true;
 
   @override
   void initState() {
     super.initState();
-    id = widget.checkList;
+    id_box = widget.checkList;
+    id = widget.checkid;
     //f1 = widget.flag1;
     //f2 = widget.flag2;
   }
@@ -35,8 +38,18 @@ class _WordAnswerViewState extends State<WordAnswerView> {
     String Term = words[id].term;
     String Difinition = words[id].definition;
     List <String>Tags = words[id].tags;
-    int nex_id = id + 1;
-    int pre_id = id - 1;
+    
+    int index_num = id_box.indexOf(id);
+    int nex_index_num = index_num + 1;
+    int pre_index_num = index_num - 1;
+    if (nex_index_num >= id_box.length) {
+      nex_index_num = 0;
+    }
+    if (pre_index_num < 0) {
+      pre_index_num = id_box.length - 1;
+    }
+    int nex_id = id_box[nex_index_num];
+    int pre_id = id_box[pre_index_num];
 
     return Scaffold(
       appBar: AppBar(
@@ -44,7 +57,21 @@ class _WordAnswerViewState extends State<WordAnswerView> {
           icon: Icon(Icons.arrow_back_outlined),
           onPressed: () => Navigator.pushNamed(context, '/word_list'),
         ),
-        title: const Text('質問と答え'),
+        title: RichText(
+          text: TextSpan(
+            children: [
+              WidgetSpan(
+                child: Icon(Icons.content_copy_rounded),
+              ),
+              TextSpan(text: '   '),
+              TextSpan(
+                text: '単語一覧',
+                style: TextStyle(color: Colors.black, fontSize: 23),
+              ),
+            ],
+          ),
+
+        ),
       ),
       endDrawer: Drawer(
         child: ListView(
@@ -65,21 +92,31 @@ class _WordAnswerViewState extends State<WordAnswerView> {
               ),
             ),
             ListTile(
+              leading: Icon(Icons.home_outlined),
               title: Text('ホーム'),
               onTap: () {
                 Navigator.pushNamed(context, '/');
               },
             ),
             ListTile(
+              leading: Icon(Icons.content_copy_rounded),
               title: Text('単語一覧'),
               onTap: () {
                 Navigator.pushNamed(context, '/word_list');
               },
             ),
             ListTile(
+              leading: Icon(Icons.add_circle_outline),
               title: Text('単語の追加'),
               onTap: () {
                 Navigator.pushNamed(context, '/word_add');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings_outlined),
+              title: Text('設定'),
+              onTap: () {
+                Navigator.pushNamed(context, '/settings');
               },
             ),
           ],
@@ -196,14 +233,14 @@ class _WordAnswerViewState extends State<WordAnswerView> {
               IconButton(
                 icon: Icon(Icons.arrow_back_ios),
                 onPressed: () {
-                  (id > 0) ? Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: pre_id))):null;
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: id_box, checkid: pre_id)));
                 },
               ),
               SizedBox(width: 200),
               IconButton(
                 icon: Icon(Icons.arrow_forward_ios),
                 onPressed: () =>
-                  (id < words.length - 1) ? Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: nex_id))):null,
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: id_box, checkid: nex_id))),
               ),
             ],
           ),

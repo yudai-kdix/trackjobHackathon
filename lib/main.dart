@@ -4,6 +4,7 @@ import 'package:trackjob2024/test.dart';
 import 'package:trackjob2024/views/add_word_view.dart';
 import 'package:trackjob2024/views/question_list_view.dart';
 import 'package:trackjob2024/views/word_detail_view.dart';
+import 'package:trackjob2024/views/setting.dart';
 import 'models/word.dart';
 
 void main() async {
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         //ここで定義したものは他で Navigator.pushNamed(context, '/ルート名');で画面が遷移するはず
         '/': (context) => const MyHomePage(title: '単語暗記アプリ'),
         // TODO: クラスを設定したら外す。
-        // '/settings': (context) => SettingsView(), // 設定画面
+        '/settings': (context) => SettingsView(), // 設定画面
         '/word_list': (context) => QuestionListView(), // 単語一覧画面
         '/word_add':(context) => const AddWordScreen(), // 単語追加画面
         // '/word_answer': (context) => WordAnswerView(), // 単語回答画面
@@ -108,21 +109,31 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             ListTile(
+              leading: Icon(Icons.home_outlined),
               title: Text('ホーム'),
               onTap: () {
                 Navigator.pushNamed(context, '/');
               },
             ),
             ListTile(
+              leading: Icon(Icons.content_copy_rounded),
               title: Text('単語一覧'),
               onTap: () {
                 Navigator.pushNamed(context, '/word_list');
               },
             ),
             ListTile(
+              leading: Icon(Icons.add_circle_outline),
               title: Text('単語の追加'),
               onTap: () {
                 Navigator.pushNamed(context, '/word_add');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings_outlined),
+              title: Text('設定'),
+              onTap: () {
+                Navigator.pushNamed(context, '/settings');
               },
             ),
           ],
