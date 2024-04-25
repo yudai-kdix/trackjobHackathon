@@ -34,7 +34,21 @@ class _QuestionListViewState extends State<QuestionListView> {
           icon: Icon(Icons.arrow_back_outlined),
           onPressed: () => Navigator.pushNamed(context, '/'),
         ),
-        title: const Text('単語と質問の一覧'),
+        title: RichText(
+          text: TextSpan(
+            children: [
+              WidgetSpan(
+                child: Icon(Icons.content_copy_rounded),
+              ),
+              TextSpan(text: '   '),
+              TextSpan(
+                text: '単語一覧',
+                style: TextStyle(color: Colors.black, fontSize: 23),
+              ),
+            ],
+          ),
+
+        ),
       ),
       endDrawer: Drawer(
         child: ListView(
@@ -55,21 +69,31 @@ class _QuestionListViewState extends State<QuestionListView> {
               ),
             ),
             ListTile(
+              leading: Icon(Icons.home_outlined),
               title: Text('ホーム'),
               onTap: () {
                 Navigator.pushNamed(context, '/');
               },
             ),
             ListTile(
+              leading: Icon(Icons.content_copy_rounded),
               title: Text('単語一覧'),
               onTap: () {
                 Navigator.pushNamed(context, '/word_list');
               },
             ),
             ListTile(
+              leading: Icon(Icons.add_circle_outline),
               title: Text('単語の追加'),
               onTap: () {
                 Navigator.pushNamed(context, '/word_add');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings_outlined),
+              title: Text('設定'),
+              onTap: () {
+                Navigator.pushNamed(context, '/settings');
               },
             ),
           ],
