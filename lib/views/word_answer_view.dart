@@ -85,7 +85,7 @@ class _WordAnswerViewState extends State<WordAnswerView> {
           ],
         ),
       ),
-      body: Column(
+      body: ListView(
         children: <Widget>[
           SizedBox(
             height: 450,
