@@ -4,8 +4,11 @@ import 'package:trackjob2024/models/word.dart';
 class QuestionListView extends StatelessWidget {
   final List<Word> words = [
     Word(term: 'Example', definition: 'これは例です', tags: ['Tag1', 'Tag2']),
+    Word(term: 'Example2', definition: 'これは例2です', tags: ['Tag3', 'Tag4']),
+    Word(term: 'Example3', definition: 'これは例3です', tags: ['Tag5', 'Tag6']),
     // 他の単語データ
   ];
+  // ほかクラスから保存されているデータ一覧を取得する処理を追加
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,7 @@ class QuestionListView extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () => Navigator.pushNamed(context, '/addWord'),
+        onPressed: () => Navigator.pushNamed(context, '/word_add'),
       ),
     );
   }

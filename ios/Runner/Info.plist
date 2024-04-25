@@ -45,5 +45,7 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSUserNotificationUsageDescription</key>
+	<string>このアプリは通知を使用します</string>
 </dict>
 </plist>

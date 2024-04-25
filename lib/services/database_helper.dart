@@ -64,4 +64,12 @@ class DatabaseHelper {
     Database db = await database;
     return await db.delete(table, where: 'id = ?', whereArgs: [id]);
   }
+  Future<List<Word>> queryAllWords() async {
+    Database db = await database;
+    List<Map> maps = await db.query(table);
+    if (maps.isNotEmpty) {
+      return maps.map((e) => Word.fromMap(e as Map<String, dynamic>)).toList();
+    }
+    return [];
+  }
 }
