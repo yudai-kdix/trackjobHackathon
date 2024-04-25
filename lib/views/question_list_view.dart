@@ -17,6 +17,7 @@ class _QuestionListViewState extends State<QuestionListView> {
     Word(term: 'Example4', definition: 'これは例です', tags: ['Tag1', 'Tag4'], judge1: true, judge2: true),
     // 他の単語データ
   ];
+  // ほかクラスから保存されているデータ一覧を取得する処理を追加
 
   var _city = '';
   bool flag1 = false;
