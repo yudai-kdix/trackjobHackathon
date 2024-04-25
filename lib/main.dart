@@ -4,10 +4,10 @@ import 'package:trackjob2024/test.dart';
 import 'package:trackjob2024/views/add_word_view.dart';
 import 'package:trackjob2024/views/question_list_view.dart';
 import 'package:trackjob2024/views/word_detail_view.dart';
-
 import 'models/word.dart';
 
 void main() async {
+
 
   runApp(const MyApp());
 }
@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
         '/word_list': (context) => QuestionListView(), // 単語一覧画面
         '/word_add':(context) => const AddWordScreen(), // 単語追加画面
         // '/word_answer': (context) => WordAnswerView(), // 単語回答画面
+
         // 'word_detail': (context) => WordDetailView(), // 単語詳細画面
         '/test':(context) => testView()
       },
@@ -79,7 +80,53 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        // TRY THIS: Try changing the color here to a specific color (to
+        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
+        // change color while the other colors stay the same.
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+      ),
+      endDrawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            SizedBox(
+              height: 80,
+              child: DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                ),
+                child: Text(
+                  'メニュー',
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text('ホーム'),
+              onTap: () {
+                Navigator.pushNamed(context, '/');
+              },
+            ),
+            ListTile(
+              title: Text('単語一覧'),
+              onTap: () {
+                Navigator.pushNamed(context, '/word_list');
+              },
+            ),
+            ListTile(
+              title: Text('単語の追加'),
+              onTap: () {
+                Navigator.pushNamed(context, '/word_add');
+              },
+            ),
+          ],
+        ),
       ),
       body: Center(
         child: Column(
@@ -101,11 +148,25 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.pushNamed(context, '/test');
                 },
                 child: const Text('通知テスト')),
+            ElevatedButton(
+              child: Text("word list"),
+              onPressed: () {
+                Navigator.pushNamed(context, '/word_list');
+              },
+            ),
+            
+            const Text(
+              'You have pushed the button this many times:',
+            ),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () => Navigator.pushNamed(context, '/word_add'),
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.

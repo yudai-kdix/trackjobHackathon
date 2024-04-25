@@ -35,6 +35,45 @@ class _AddWordScreenState extends State<AddWordScreen> {
           ),
         ],
       ),
+      endDrawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            SizedBox(
+              height: 80,
+              child: DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                ),
+                child: Text(
+                  'メニュー',
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text('ホーム'),
+              onTap: () {
+                Navigator.pushNamed(context, '/');
+              },
+            ),
+            ListTile(
+              title: Text('単語一覧'),
+              onTap: () {
+                Navigator.pushNamed(context, '/word_list');
+              },
+            ),
+            ListTile(
+              title: Text('単語の追加'),
+              onTap: () {
+                Navigator.pushNamed(context, '/word_add');
+              },
+            ),
+          ],
+        ),
+      ),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
