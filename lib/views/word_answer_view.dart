@@ -199,7 +199,7 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                   (id > 0) ? Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: pre_id))):null;
                 },
               ),
-              SizedBox(width: 200),
+              // SizedBox(width: 200),
               IconButton(
                 icon: Icon(Icons.arrow_forward_ios),
                 onPressed: () =>

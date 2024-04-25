@@ -42,10 +42,13 @@ class DatabaseHelper {
           ''');
   }
    // CRUD操作
+
+  // データの保存
   Future<int> insertWord(Word word) async {
     Database db = await database;
     return await db.insert(table, word.toMap());
   }
+  // データの取得
   Future<Word?> queryWord(int id) async {
     Database db = await database;
     List<Map> maps = await db.query(table,
@@ -57,15 +60,18 @@ class DatabaseHelper {
     }
     return null;
   }
+  // データの更新
   Future<int> updateWord(Word word) async {
     Database db = await database;
     return await db
         .update(table, word.toMap(), where: 'id = ?', whereArgs: [word.id]);
   }
+  // データの削除
   Future<int> deleteWord(int id) async {
     Database db = await database;
     return await db.delete(table, where: 'id = ?', whereArgs: [id]);
   }
+  // 全データの取得
   Future<List<Word>> queryAllWords() async {
     Database db = await database;
     List<Map> maps = await db.query(table);
@@ -75,3 +81,4 @@ class DatabaseHelper {
     return [];
   }
 }
+
