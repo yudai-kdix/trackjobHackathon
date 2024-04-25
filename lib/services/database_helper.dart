@@ -35,6 +35,8 @@ class DatabaseHelper {
             term TEXT NOT NULL,
             definition TEXT NOT NULL,
             tags TEXT,
+            judge1 INTEGER NOT NULL,
+            judge2 INTEGER NOT NULL,
             isMemorized INTEGER NOT NULL
           )
           ''');
@@ -47,7 +49,7 @@ class DatabaseHelper {
   Future<Word?> queryWord(int id) async {
     Database db = await database;
     List<Map> maps = await db.query(table,
-        columns: ['id', 'term', 'definition', 'tags', 'isMemorized'],
+        columns: ['id', 'term', 'definition', 'tags', 'judge1', 'judge2', 'isMemorized'],
         where: 'id = ?',
         whereArgs: [id]);
     if (maps.isNotEmpty) {

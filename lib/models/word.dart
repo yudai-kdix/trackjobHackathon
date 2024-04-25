@@ -22,6 +22,8 @@ class Word{
       'term': term,
       'definition': definition,
       'tags': tags.join(','), // タグリストをカンマ区切りの文字列に変換
+      'judge1': judge1 ? 1 : 0,
+      'judge2': judge2 ? 1 : 0,
       'isMemorized': isMemorized ? 1 : 0,
     };
     if (id != null) {
@@ -35,8 +37,8 @@ class Word{
       term: map['term'],
       definition: map['definition'],
       tags: map['tags'].split(','), // カンマ区切りの文字列をリストに変換
-      judge1: map['judge1'],
-      judge2: map['judge2'],
+      judge1: map['judge1'] == 1,
+      judge2: map['judge2'] == 1,
       isMemorized: map['isMemorized'] == 1,
     );
   }
