@@ -27,6 +27,7 @@ class _QuestionListViewState extends State<QuestionListView> {
   bool flag2 = false;
   String text = "";
   String search_tag = "";
+  List<int> id_box = [];
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,21 @@ class _QuestionListViewState extends State<QuestionListView> {
           icon: Icon(Icons.arrow_back_outlined),
           onPressed: () => Navigator.pushNamed(context, '/'),
         ),
-        title: const Text('単語と質問の一覧'),
+        title: RichText(
+          text: TextSpan(
+            children: [
+              WidgetSpan(
+                child: Icon(Icons.content_copy_rounded),
+              ),
+              TextSpan(text: '   '),
+              TextSpan(
+                text: '単語一覧',
+                style: TextStyle(color: Colors.black, fontSize: 23),
+              ),
+            ],
+          ),
+
+        ),
       ),
       endDrawer: Drawer(
         child: ListView(
@@ -57,21 +72,31 @@ class _QuestionListViewState extends State<QuestionListView> {
               ),
             ),
             ListTile(
+              leading: Icon(Icons.home_outlined),
               title: Text('ホーム'),
               onTap: () {
                 Navigator.pushNamed(context, '/');
               },
             ),
             ListTile(
+              leading: Icon(Icons.content_copy_rounded),
               title: Text('単語一覧'),
               onTap: () {
                 Navigator.pushNamed(context, '/word_list');
               },
             ),
             ListTile(
+              leading: Icon(Icons.add_circle_outline),
               title: Text('単語の追加'),
               onTap: () {
                 Navigator.pushNamed(context, '/word_add');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings_outlined),
+              title: Text('設定'),
+              onTap: () {
+                Navigator.pushNamed(context, '/settings');
               },
             ),
           ],
@@ -103,6 +128,7 @@ class _QuestionListViewState extends State<QuestionListView> {
                       ),
                       onPressed: () {
                         setState(() {
+                          id_box = [];
                           search_tag = text;
                         });
                       },
@@ -123,7 +149,9 @@ class _QuestionListViewState extends State<QuestionListView> {
                       flag1 ? Icons.check_box_rounded : Icons.check_box_outlined,
                       ),
                     onPressed: () {
+                      id_box = [];
                       setState(() {
+                        id_box = [];
                         flag1 = !flag1;
                       });
                     },
@@ -133,7 +161,9 @@ class _QuestionListViewState extends State<QuestionListView> {
                       flag2 ? Icons.bookmark_outlined : Icons.bookmark_outline_outlined,
                       ),
                     onPressed: () {
+                      id_box = [];
                       setState(() {
+                        id_box = [];
                         flag2 = !flag2;
                       });
                     },
@@ -154,6 +184,7 @@ class _QuestionListViewState extends State<QuestionListView> {
 
                 //チェックアイコンがあるものは表示せず、タグアイコンのあるものは表示する
                 (flag1 && !word.judge1) || (flag2 && word.judge2) ? JUDGE = false:JUDGE = true;
+                ((search_tag == "") || (word.tags.contains(search_tag)) || (word.tags.contains(search_tag))) && JUDGE ? id_box.add(id):id_box = id_box;
                 //タグ検索
                 return ((search_tag == "") || (word.tags.contains(search_tag))) && JUDGE ? Card(
                   color: Colors.grey[200],
@@ -169,6 +200,7 @@ class _QuestionListViewState extends State<QuestionListView> {
                             ),
                           onPressed: () {
                             setState(() {
+                              id_box = [];
                               word.judge1 = !word.judge1;
                             });
                           },
@@ -179,6 +211,7 @@ class _QuestionListViewState extends State<QuestionListView> {
                             ),
                           onPressed: () {
                             setState(() {
+                              id_box = [];
                               word.judge2 = !word.judge2;
                             });
                           },
@@ -193,7 +226,7 @@ class _QuestionListViewState extends State<QuestionListView> {
                     ),
                     onTap: () =>
                       //Navigator.pushNamed(context, '/detail', arguments: word),
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: id)),
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: id_box, checkid: id,)),
                     ),
                   ),
                 ):SizedBox(height: 0);
