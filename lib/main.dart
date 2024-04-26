@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trackjob2024/services/database_helper.dart';
 import 'package:trackjob2024/services/notification_service.dart';
 import 'package:trackjob2024/views/add_word_view.dart';
 import 'package:trackjob2024/views/question_list_view.dart';
@@ -7,6 +8,7 @@ import 'package:trackjob2024/views/word_detail_view.dart';
 import 'models/word.dart';
 
 void main() async {
+  DatabaseHelper.instance;
   runApp(const MyApp());
 }
 
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
         '/word_list': (context) => QuestionListView(), // 単語一覧画面
         '/word_add':(context) => const AddWordScreen(), // 単語追加画面
         // '/word_answer': (context) => WordAnswerView(), // 単語回答画面
-
+        '/test':(context) => const QuestionListView(),
         // 'word_detail': (context) => WordDetailView(), // 単語詳細画面
       },
       onGenerateRoute: (settings) {
@@ -142,6 +144,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.pushNamed(context, '/word_list');
               },
             ),
+            TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/test');
+                },
+                child: const Text('test')),
           ],
         ),
       ),
