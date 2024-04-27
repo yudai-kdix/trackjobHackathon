@@ -137,7 +137,7 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                     });
                   },
                   child: Card(
-                    color: Colors.grey[200],
+                    color: Color.fromARGB(255, 227, 239, 247),
                     child: Column(
                       children: [
                         Container(
@@ -192,7 +192,7 @@ class _WordAnswerViewState extends State<WordAnswerView> {
               Container(
                 height: 50,
                 width: double.infinity, //横幅いっぱいを意味する
-                color: Color.fromARGB(255, 221, 226, 233), //広がっているか色をつけて確認
+                color: Color.fromARGB(255, 95, 160, 231), //広がっているか色をつけて確認
                 child: ListTile(
                   trailing: Wrap(
                     spacing: 0, // アイコンの間の幅を調整
@@ -202,6 +202,7 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                         icon: Icon(
                           correct_tag ? Icons.check_box_rounded : Icons.check_box_outlined,
                           ),
+                        color: Colors.white,
                         onPressed: () {
                           setState(() {
                             correct_tag = !correct_tag;
@@ -212,6 +213,7 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                         icon: Icon(
                           irrcorrect_tag ? Icons.bookmark_outlined : Icons.bookmark_outline_outlined,
                           ),
+                        color: Colors.white,
                         onPressed: () {
                           setState(() {
                             irrcorrect_tag = !irrcorrect_tag;
@@ -225,7 +227,7 @@ class _WordAnswerViewState extends State<WordAnswerView> {
               SizedBox(
                 height: 120,
                 child: Card(
-                  color: Colors.grey[200],
+                  color: Color.fromARGB(255, 227, 239, 247),
                   child: Column(
                     children: <Widget>[
                       Container(
