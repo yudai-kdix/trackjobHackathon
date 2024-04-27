@@ -6,7 +6,7 @@ import 'package:trackjob2024/test.dart';
 import 'package:trackjob2024/views/add_word_view.dart';
 import 'package:trackjob2024/views/question_list_view.dart';
 // import 'package:trackjob2024/views/settings_view.dart';
-
+import 'package:trackjob2024/services/bar_graph.dart';
 import 'package:trackjob2024/views/word_detail_view.dart';
 import 'package:trackjob2024/views/setting.dart';
 import 'models/word.dart';
@@ -204,13 +204,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Positioned(
                 top: 60,
-                left: 265,
+                right: -42,
                 width: 160.0,
                 height: 260.0,
                 child: RichText(
                   text: TextSpan(
                     children: [
-                      TextSpan(text: '   '),
                       TextSpan(
                         text: '正解数：',
                         style: TextStyle(color: Colors.black, fontSize: 13),
@@ -221,14 +220,14 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Positioned(
                 top: 60,
-                left: 245,
+                right: -12,
                 width: 160.0,
                 height: 260.0,
                 child: RichText(
                   text: TextSpan(
                     children: [
                       WidgetSpan(
-                        child: Icon(Icons.content_copy_rounded),
+                        child: Icon(Icons.check_circle_outline),
                       ),
                     ],
                   ),
@@ -236,13 +235,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Positioned(
                 top: 120,
-                left: 265,
+                right: -42,
                 width: 160.0,
                 height: 260.0,
                 child: RichText(
                   text: TextSpan(
                     children: [
-                      TextSpan(text: '   '),
                       TextSpan(
                         text: '不正解数：',
                         style: TextStyle(color: Colors.black, fontSize: 13),
@@ -253,14 +251,14 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Positioned(
                 top: 120,
-                left: 245,
+                right: -12,
                 width: 160.0,
                 height: 260.0,
                 child: RichText(
                   text: TextSpan(
                     children: [
                       WidgetSpan(
-                        child: Icon(Icons.content_copy_rounded),
+                        child: Icon(Icons.announcement_outlined),
                       ),
                     ],
                   ),
@@ -268,13 +266,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Positioned(
                 top: 180,
-                left: 265,
+                right: -42,
                 width: 160.0,
                 height: 260.0,
                 child: RichText(
                   text: TextSpan(
                     children: [
-                      TextSpan(text: '   '),
                       TextSpan(
                         text: '未回答：',
                         style: TextStyle(color: Colors.black, fontSize: 13),
@@ -285,14 +282,14 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Positioned(
                 top: 180,
-                left: 245,
+                right: -12,
                 width: 160.0,
                 height: 260.0,
                 child: RichText(
                   text: TextSpan(
                     children: [
                       WidgetSpan(
-                        child: Icon(Icons.content_copy_rounded),
+                        child: Icon(Icons.question_mark_rounded),
                       ),
                     ],
                   ),
@@ -300,13 +297,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Positioned(
                 top: 240,
-                left: 255,
+                right: -32,
                 width: 160.0,
                 height: 260.0,
                 child: RichText(
                   text: TextSpan(
                     children: [
-                      TextSpan(text: '   '),
                       TextSpan(
                         text: '正答率：',
                         style: TextStyle(color: Colors.black, fontSize: 13),
@@ -317,7 +313,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Positioned(
                 top: 242,
-                left: 330,
+                right: -100,
                 width: 160.0,
                 height: 260.0,
                 child: RichText(
@@ -348,16 +344,41 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
-              // Positioned(
-              //   top: 260,
-              //   left: 1,
-              //   right: 1,
-              //   //height: 200.0,
-              //   child: BarGraph(),
-              // ),
+              Positioned(
+                top: 320,
+                left: 35,
+                // right: 1,
+                //height: 200.0,
+                child: LimitedBox(
+                  maxWidth: 320,
+                  maxHeight: 160,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    //physics: NeverScrollableScrollPhysics(),
+                    itemCount: 15,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Card(
+                        child: Container(
+                          width: 150,
+                          child: Center(
+                            child: Column(
+                              children: [
+                                SizedBox(height: 50,),
+                                Text('Tag${index + 1}'),
+                                Text('正解数：'),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  )
+                ),
+              ),
               Positioned(
                 top: 530,
-                left: 40,
+                right: 260,
                 width: 90.0,
                 height: 90.0,
                 child: InkWell(
