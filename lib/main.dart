@@ -6,7 +6,7 @@ import 'package:trackjob2024/test.dart';
 import 'package:trackjob2024/views/add_word_view.dart';
 import 'package:trackjob2024/views/question_list_view.dart';
 // import 'package:trackjob2024/views/settings_view.dart';
-
+import 'package:trackjob2024/services/bar_graph.dart';
 import 'package:trackjob2024/views/word_detail_view.dart';
 import 'package:trackjob2024/views/setting.dart';
 import 'models/word.dart';
@@ -344,13 +344,38 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
-              // Positioned(
-              //   top: 260,
-              //   left: 1,
-              //   right: 1,
-              //   //height: 200.0,
-              //   child: BarGraph(),
-              // ),
+              Positioned(
+                top: 320,
+                left: 35,
+                // right: 1,
+                //height: 200.0,
+                child: LimitedBox(
+                  maxWidth: 320,
+                  maxHeight: 160,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    //physics: NeverScrollableScrollPhysics(),
+                    itemCount: 15,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Card(
+                        child: Container(
+                          width: 150,
+                          child: Center(
+                            child: Column(
+                              children: [
+                                SizedBox(height: 50,),
+                                Text('Tag${index + 1}'),
+                                Text('正解数：'),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  )
+                ),
+              ),
               Positioned(
                 top: 530,
                 right: 260,
