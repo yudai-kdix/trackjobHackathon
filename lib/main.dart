@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:trackjob2024/services/database_helper.dart';
 import 'package:trackjob2024/services/notification_service.dart';
+import 'package:trackjob2024/test.dart';
 import 'package:trackjob2024/views/add_word_view.dart';
 import 'package:trackjob2024/views/question_list_view.dart';
-import 'package:trackjob2024/views/settings_view.dart';
+// import 'package:trackjob2024/views/settings_view.dart';
+
 import 'package:trackjob2024/views/word_detail_view.dart';
 import 'package:trackjob2024/views/setting.dart';
 import 'models/word.dart';
 
 void main() async {
-  DatabaseHelper.instance;
   runApp(const MyApp());
 }
 
@@ -27,11 +27,11 @@ class MyApp extends StatelessWidget {
         //ここで定義したものは他で Navigator.pushNamed(context, '/ルート名');で画面が遷移するはず
         '/': (context) => const MyHomePage(title: '単語暗記アプリ'),
         // TODO: クラスを設定したら外す。
-        '/settings': (context) => SettingsView(), // 設定画面
+        '/settings': (context) => SettingsView(),
         '/word_list': (context) => QuestionListView(), // 単語一覧画面
         '/word_add':(context) => const AddWordScreen(), // 単語追加画面
         // '/word_answer': (context) => WordAnswerView(), // 単語回答画面
-        '/test':(context) => const QuestionListView(),
+        '/test':(context) => const TestView(),
         // 'word_detail': (context) => WordDetailView(), // 単語詳細画面
       },
       onGenerateRoute: (settings) {

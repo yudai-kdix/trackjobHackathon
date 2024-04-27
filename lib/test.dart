@@ -3,15 +3,15 @@ import 'package:trackjob2024/models/word.dart';
 import 'package:trackjob2024/views/word_answer_view.dart';
 import 'package:trackjob2024/services/database_helper.dart';
 
-class QuestionListView extends StatefulWidget {
-  const QuestionListView({Key? key}) : super(key: key);
+class TestView extends StatefulWidget {
+  const TestView({Key? key}) : super(key: key);
 
   @override
   _QuestionListViewState createState() => _QuestionListViewState();
 }
 
-class _QuestionListViewState extends State<QuestionListView> {
-  final Future<List<Word>> words = DatabaseHelper.instance.queryAllWords();
+class _QuestionListViewState extends State<TestView> {
+  final Future<List<Word>> words = DatabaseHelper().queryAllWords();
 //  final List<Word> words =
   // DatabaseHelper.instance.queryAllWords();
   // ほかクラスから保存されているデータ一覧を取得する処理を追加
@@ -157,7 +157,10 @@ class _QuestionListViewState extends State<QuestionListView> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  WordAnswerView(checkList: index)),
+                                  WordAnswerView(
+                                    checkList: [],
+                                    checkid: index,
+                                  )),
                         ),
                       );
                     },
