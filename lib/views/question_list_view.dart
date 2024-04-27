@@ -12,12 +12,14 @@ class QuestionListView extends StatefulWidget {
 
 class _QuestionListViewState extends State<QuestionListView> {
   final List<Word> words = [
-    Word(term: 'Example', definition: 'これは例です', tags: ['Tag1', 'Tag2'], judge1: true, judge2: true),
+    Word(term: 'Example1', definition: 'これは例です', tags: ['Tag1', 'Tag2'], judge1: true, judge2: true),
     Word(term: 'Example2', definition: 'これは例です', tags: ['Tag3', 'Tag2'], judge1: true, judge2: true),
     Word(term: 'Example3', definition: 'これは例です', tags: ['Tag1', 'Tag3'], judge1: true, judge2: true),
     Word(term: 'Example4', definition: 'これは例です', tags: ['Tag1', 'Tag4'], judge1: true, judge2: true),
     // 他の単語データ
-  ];
+  ]; 
+//  final List<Word> words = DatabaseHelper.instance.queryAllWords();
+  // DatabaseHelper.instance.queryAllWords();
   // ほかクラスから保存されているデータ一覧を取得する処理を追加
 
   var _city = '';

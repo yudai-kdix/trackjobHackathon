@@ -6,7 +6,14 @@ class notification_service {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
   late Timer timer;
+  // 通知の時間設定
+  int startTime = 8; // 8時から
+  int endTime = 20; // 20時まで
+  int notificationInterval = 1; // 一時間毎
 
+  //  メモ 
+  // 今通知を1時間毎に自動に実行するメソッドを書いたが、単語をランダムに送ることを考えると、別の場所で1時間毎に通知を呼び出すメソッドにしたほうがいいかも
+  
   notification_service() {
     _initializeNotifications();
   }
@@ -41,11 +48,10 @@ class notification_service {
         0, '単語暗記アプリ', body, platformChannelSpecifics);
   }
   // 1時間ごとに通知をスケジュールする
-  // TODO 時間の制限を変数で管理
   void scheduleNotification() {
-    timer = Timer.periodic(Duration(hours: 1), (Timer t) async {
+    timer = Timer.periodic(Duration(hours: notificationInterval), (Timer t) async {
       int hour = DateTime.now().hour;
-      if (hour >= 8 && hour < 20) {
+      if (hour >= startTime && hour < endTime) {
         // 8時から19時まで1時間ごとに通知
         await showHourlyNotification();
       }
@@ -76,5 +82,15 @@ class notification_service {
   // 通知をキャンセルする
   void cancelNotification() {
     timer.cancel();
+  }
+
+  // 通知の時間を変更
+  void changeTime(int start, int end) {
+    startTime = start;
+    endTime = end;
+  }
+
+  void changeInterval(int interval) {
+    notificationInterval = interval;
   }
 }

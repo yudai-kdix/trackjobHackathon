@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:trackjob2024/services/notification_service.dart';
 import 'package:trackjob2024/test.dart';
 import 'package:trackjob2024/views/add_word_view.dart';
 import 'package:trackjob2024/views/question_list_view.dart';
+// import 'package:trackjob2024/views/settings_view.dart';
+
 import 'package:trackjob2024/views/word_detail_view.dart';
 import 'package:trackjob2024/views/setting.dart';
 import 'models/word.dart';
 
 void main() async {
-
-
   runApp(const MyApp());
 }
 
@@ -27,13 +27,12 @@ class MyApp extends StatelessWidget {
         //ここで定義したものは他で Navigator.pushNamed(context, '/ルート名');で画面が遷移するはず
         '/': (context) => const MyHomePage(title: '単語暗記アプリ'),
         // TODO: クラスを設定したら外す。
-        '/settings': (context) => SettingsView(), // 設定画面
+        '/settings': (context) => SettingsView(),
         '/word_list': (context) => QuestionListView(), // 単語一覧画面
         '/word_add':(context) => const AddWordScreen(), // 単語追加画面
         // '/word_answer': (context) => WordAnswerView(), // 単語回答画面
-
+        '/test':(context) => const TestView(),
         // 'word_detail': (context) => WordDetailView(), // 単語詳細画面
-        '/test':(context) => testView()
       },
       onGenerateRoute: (settings) {
         // 設定に基づいてルートを動的に生成
@@ -52,15 +51,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -156,23 +146,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: const Text('単語一覧')),
             TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/test');
+                  Navigator.pushNamed(context, '/settings');
                 },
-                child: const Text('通知テスト')),
+                child: const Text('設定画面')),
             ElevatedButton(
               child: Text("word list"),
               onPressed: () {
                 Navigator.pushNamed(context, '/word_list');
               },
             ),
-            
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/test');
+                },
+                child: const Text('test')),
           ],
         ),
       ),
