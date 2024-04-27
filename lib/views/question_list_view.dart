@@ -227,6 +227,10 @@ class _QuestionListViewState extends State<QuestionListView> {
                               IconButton(
                                 icon: Icon(Icons.border_color_outlined),
                                 onPressed: () {
+                                  setState(() {
+                                    DatabaseHelper().deleteData('word',id);
+                                    DatabaseHelper().updateData('word',snapshot.data![id]);
+                                  });
                                   //onpress action
                                 },
                               ),

@@ -12,6 +12,9 @@ import 'package:trackjob2024/views/word_detail_view.dart';
 import 'package:trackjob2024/views/setting.dart';
 import 'models/word.dart';
 import 'package:trackjob2024/services/circle_graph.dart';
+import 'package:trackjob2024/services/database_helper.dart';
+import 'package:trackjob2024/models/word.dart';
+import 'package:trackjob2024/views/word_answer_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -71,13 +74,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  final Future<List<Word>> words = DatabaseHelper().queryAllData('word').then((list) => list.cast<Word>());
 
   @override
   Widget build(BuildContext context) {
@@ -341,18 +338,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 left: 20,
                 right: 20,
                 height: 180.0,
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      //ansORques = !ansORques;
-                    });
-                  },
-                  child: Card(
-                    color: Color.fromARGB(255, 227, 239, 247),
+                child: Card(
+                    color: Color.fromARGB(255, 180, 216, 255),
                     child:Text(''),
                   ),
                 ),
-              ),
               Positioned(
                 top: 320,
                 left: 35,
@@ -361,28 +351,49 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: LimitedBox(
                   maxWidth: 320,
                   maxHeight: 160,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    //physics: NeverScrollableScrollPhysics(),
-                    itemCount: 15,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Card(
-                        child: Container(
-                          width: 150,
-                          child: Center(
-                            child: Column(
-                              children: [
-                                SizedBox(height: 50,),
-                                Text('Tag${index + 1}'),
-                                Text('正解数：'),
-                              ],
-                            ),
-                          ),
-                        ),
+                  child: FutureBuilder<List<Word>>(
+                    future: words,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        List<int> id_box = [];
+                        for (int i = 0; i < snapshot.data!.length; i++) {
+                          id_box.add(i);
+                        }
+                        return ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          //physics: NeverScrollableScrollPhysics(),
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: id_box, checkid: index,)));
+                              },
+                              child: Card(
+                                child: Container(
+                                  width: 150,
+                                  child: Center(
+                                    child: Column(
+                                      children: [
+                                        SizedBox(height: 50,),
+                                        Text('${snapshot.data![index].term}'),
+                                        Text('${snapshot.data![index].definition}'),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('');
+                      }
+                      return const Center(
+                        child: CircularProgressIndicator(),
                       );
-                    }
-                  )
+                    },
+                  ),
                 ),
               ),
               Positioned(
