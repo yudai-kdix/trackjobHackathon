@@ -15,9 +15,10 @@ class NotificationWord {
   // static bool flag = false;
   static bool flag = true;
   // TODO 初期をtrueにしているが、本来はfalseにしておく
-  
+
   NotificationWord() {
-    wordList = DatabaseHelper().queryAllData('word') as Future<List<Word>>;
+    wordList =
+        DatabaseHelper().queryAllData('word').then((list) => list.cast<Word>());
     timer = Timer.periodic(Duration(minutes: notificationInterval),
         (Timer t) async {
       int hour = DateTime.now().hour;
