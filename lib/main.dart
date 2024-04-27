@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:trackjob2024/test.dart';
 import 'package:trackjob2024/views/add_word_view.dart';
@@ -139,48 +140,128 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      body: Center(
-        child: Column(
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/');
-                },
-                child: const Text('単語暗記アプリ')),
-            TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/word_list');
-                },
-                child: const Text('単語一覧')),
-            TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/test');
-                },
-                child: const Text('通知テスト')),
-            ElevatedButton(
-              child: Text("word list"),
-              onPressed: () {
-                Navigator.pushNamed(context, '/word_list');
+      body: Stack(
+        children: [
+          SizedBox(
+            height: 1000,
+            width: 1000,
+            child: Card(
+                child:Text(''),
+            ),
+          ),
+          Positioned(
+            top: 20,
+            left: 1,
+            width: 200.0,
+            height: 200.0,
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  //ansORques = !ansORques;
+                });
               },
+              child: Card(
+                color: Colors.grey[200],
+                child:Text('ha'),
+              ),
             ),
-            
-            const Text(
-              'You have pushed the button this many times:',
+          ),
+          Positioned(
+            top: 20,
+            right: 1,
+            width: 190.0,
+            height: 200.0,
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  //ansORques = !ansORques;
+                });
+              },
+              child: Card(
+                color: Colors.grey[200],
+                child:Text('ha'),
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+          ),
+          Positioned(
+            top: 220,
+            left: 1,
+            right: 1,
+            height: 200.0,
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  //ansORques = !ansORques;
+                });
+              },
+              child: Card(
+                color: Colors.grey[200],
+                child:Text('ha'),
+              ),
             ),
-          ],
-        ),
+          ),
+          Positioned(
+            top: 420,
+            left: 1,
+            width: 200.0,
+            height: 200.0,
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  //ansORques = !ansORques;
+                });
+              },
+              child: Card(
+                color: Colors.grey[200],
+                child:Text('ha'),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 420,
+            right: 1,
+            width: 190.0,
+            height: 100.0,
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  //ansORques = !ansORques;
+                });
+              },
+              child: Card(
+                color: Colors.grey[200],
+                child:Text('ha'),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 520,
+            right: 1,
+            width: 190.0,
+            height: 100.0,
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  //ansORques = !ansORques;
+                });
+              },
+              child: Card(
+                color: Colors.grey[200],
+                child:Text('ha'),
+              ),
+            ),
+          ),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, '/word_add'),
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      // floatingActionButton: FloatingActionButton(
+      //   child: const Icon(Icons.add),
+      //   onPressed: () => Navigator.pushNamed(context, '/word_add'),
+      // ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () => Navigator.pushNamed(context, '/word_add'),
+      //   tooltip: 'Increment',
+      //   child: const Icon(Icons.add),
+      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

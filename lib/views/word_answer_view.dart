@@ -25,6 +25,8 @@ class _WordAnswerViewState extends State<WordAnswerView> {
   late List<int> id_box;
   late int id;
   bool ansORques = true;
+  bool correct_tag = true;
+  bool irrcorrect_tag = true;
 
   @override
   void initState() {
@@ -122,127 +124,177 @@ class _WordAnswerViewState extends State<WordAnswerView> {
           ],
         ),
       ),
-      body: ListView(
-        children: <Widget>[
-          SizedBox(
-            height: 450,
-            child: InkWell(
-              onTap: () {
-                setState(() {
-                  ansORques = !ansORques;
-                });
-              },
-              child: Card(
-                color: Colors.grey[200],
-                child: Column(
-                  children: [
-                    Container(
-                      child: ListTile(
-                        trailing: Wrap(
-                          spacing: 8, // アイコンの間の幅を調整
-                          children: [
-                          IconButton(
-                              icon: Icon(
-                                words[id].judge1 ? Icons.check_box_outlined : Icons.check_box_rounded,
+      body: Stack(
+        children: [
+          ListView(
+            children: <Widget>[
+              SizedBox(
+                height: 450,
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      ansORques = !ansORques;
+                    });
+                  },
+                  child: Card(
+                    color: Colors.grey[200],
+                    child: Column(
+                      children: [
+                        Container(
+                          child: ListTile(
+                            trailing: Wrap(
+                              spacing: 8, // アイコンの間の幅を調整
+                              children: [
+                              IconButton(
+                                  icon: Icon(
+                                    words[id].judge1 ? Icons.check_box_outlined : Icons.check_box_rounded,
+                                    ),
+                                  onPressed: () {
+                                    setState(() {                   
+                                      words[id].judge1 = !words[id].judge1;
+                                    });
+                                  },
                                 ),
-                              onPressed: () {
-                                setState(() {                   
-                                  words[id].judge1 = !words[id].judge1;
-                                });
-                              },
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                words[id].judge2 ? Icons.bookmark_outline_outlined : Icons.bookmark_outlined,
+                                IconButton(
+                                  icon: Icon(
+                                    words[id].judge2 ? Icons.bookmark_outline_outlined : Icons.bookmark_outlined,
+                                    ),
+                                  onPressed: () {
+                                    setState(() {
+                                      words[id].judge2 = !words[id].judge2;
+                                  });
+                                  },
                                 ),
-                              onPressed: () {
-                                setState(() {
-                                  words[id].judge2 = !words[id].judge2;
-                              });
-                              },
+                                IconButton(
+                                  icon: Icon(Icons.border_color_outlined),
+                                  onPressed: () {
+                                    //onpress action
+                                //onTap: () =>
+                                  //Navigator.pushNamed(context, '/detail', arguments: word),
+                                  },
+                                ),
+                              ],
                             ),
-                            IconButton(
-                              icon: Icon(Icons.border_color_outlined),
-                              onPressed: () {
-                                //onpress action
-                            //onTap: () =>
-                              //Navigator.pushNamed(context, '/detail', arguments: word),
-                              },
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
+                        SizedBox(
+                          height: 150,
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: ansORques ? Text(style: TextStyle(fontSize: 50),Term) : Text(style: TextStyle(fontSize: 50),Difinition),
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 150,
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: ansORques ? Text(style: TextStyle(fontSize: 50),Term) : Text(style: TextStyle(fontSize: 50),Difinition),
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-          SizedBox(
-            height: 120,
-            child: Card(
-              color: Colors.grey[200],
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    child: ListTile(
-                      trailing: Wrap(
-                        spacing: 8, // アイコンの間の幅を調整
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.border_color_outlined),
-                            onPressed: () {
-                                //onpress action
-                            //onTap: () =>
-                              //Navigator.pushNamed(context, '/detail', arguments: word),
-                              },
+              Container(
+                height: 50,
+                width: double.infinity, //横幅いっぱいを意味する
+                color: Color.fromARGB(255, 221, 226, 233), //広がっているか色をつけて確認
+                child: ListTile(
+                  trailing: Wrap(
+                    spacing: 0, // アイコンの間の幅を調整
+                    children: [
+                      
+                      IconButton(
+                        icon: Icon(
+                          correct_tag ? Icons.check_box_rounded : Icons.check_box_outlined,
                           ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          
-                        ],
+                        onPressed: () {
+                          setState(() {
+                            correct_tag = !correct_tag;
+                          });
+                        },
                       ),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      for (int i = 0; i < Tags.length; i++) ... {
-                        Text('#'),
-                        Text(Tags[i]),
-                        (i < Tags.length - 1) ? Text(','):Text(''),
-                        (i < Tags.length - 1) ? Text('    '):Text(''),
-                      },
+                      IconButton(
+                        icon: Icon(
+                          irrcorrect_tag ? Icons.bookmark_outlined : Icons.bookmark_outline_outlined,
+                          ),
+                        onPressed: () {
+                          setState(() {
+                            irrcorrect_tag = !irrcorrect_tag;
+                          });
+                        },
+                      ),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.arrow_back_ios),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: id_box, checkid: pre_id)));
-                },
-              ),
-              SizedBox(width: 200),
-              IconButton(
-                icon: Icon(Icons.arrow_forward_ios),
-                onPressed: () =>
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: id_box, checkid: nex_id))),
+              SizedBox(
+                height: 120,
+                child: Card(
+                  color: Colors.grey[200],
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        child: ListTile(
+                          trailing: Wrap(
+                            spacing: 8, // アイコンの間の幅を調整
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.border_color_outlined),
+                                onPressed: () {
+                                    //onpress action
+                                //onTap: () =>
+                                  //Navigator.pushNamed(context, '/detail', arguments: word),
+                                  },
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              
+                            ],
+                          ),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          for (int i = 0; i < Tags.length; i++) ... {
+                            Text('#'),
+                            Text(Tags[i]),
+                            (i < Tags.length - 1) ? Text(','):Text(''),
+                            (i < Tags.length - 1) ? Text('    '):Text(''),
+                          },
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
+          ),
+          Positioned(
+            top: 60,
+            left: 1.0,
+            width: 60.0,
+            height: 500.0,
+            child: TextButton(
+              child: Text(''),
+              style: TextButton.styleFrom(
+                //fixedSize: const Size(50,700),
+              ),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: id_box, checkid: pre_id)));
+              },
+            ),
+          ),
+          Positioned(
+            top: 60,
+            right: 1.0,
+            width: 60.0,
+            height: 500.0,
+            child: TextButton(
+              child: Text(''),
+              style: TextButton.styleFrom(
+                //fixedSize: const Size(50,700),
+              ),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: id_box, checkid: nex_id)));
+              },
+            ),
           ),
         ],
       ),
