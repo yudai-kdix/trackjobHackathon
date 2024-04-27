@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter/widgets.dart';
 import 'package:trackjob2024/services/notification_service.dart';
 import 'package:trackjob2024/test.dart';
 import 'package:trackjob2024/views/add_word_view.dart';
@@ -8,6 +10,7 @@ import 'package:trackjob2024/views/question_list_view.dart';
 import 'package:trackjob2024/views/word_detail_view.dart';
 import 'package:trackjob2024/views/setting.dart';
 import 'models/word.dart';
+import 'package:trackjob2024/services/circle_graph.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -21,7 +24,7 @@ class MyApp extends StatelessWidget {
       title: '単語暗記アプリ',
       theme: ThemeData(
         // ここでテーマを設定
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 88, 154, 225)),
       ),
       routes: {
         //ここで定義したものは他で Navigator.pushNamed(context, '/ルート名');で画面が遷移するはず
@@ -129,45 +132,293 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      body: Center(
-        child: Column(
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/');
-                },
-                child: const Text('単語暗記アプリ')),
-            TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/word_list');
-                },
-                child: const Text('単語一覧')),
-            TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/settings');
-                },
-                child: const Text('設定画面')),
-            ElevatedButton(
-              child: Text("word list"),
-              onPressed: () {
-                Navigator.pushNamed(context, '/word_list');
-              },
-            ),
-            TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/test');
-                },
-                child: const Text('test')),
-          ],
-        ),
+      body: ListView(
+        children: [
+          Stack(
+            children: [
+              SizedBox(
+                height: 700,
+                width: 1000,
+                child: Card(
+                    child:Text(''),
+                ),
+              ),
+              // Positioned(
+              //   top: 20,
+              //   left: 1,
+              //   width: 230.0,
+              //   height: 240.0,
+              //   child: InkWell(
+              //     onTap: () {
+              //       setState(() {
+              //         //ansORques = !ansORques;
+              //       });
+              //     },
+              //     child: Card(
+              //       color: Colors.grey[200],
+              //       child:Text(''),
+              //     ),
+              //   ),
+              // ),
+              Positioned(
+                top: 30,
+                right: 10,
+                //left: 10,
+                width: 160.0,
+                height: 260.0,
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      //ansORques = !ansORques;
+                    });
+                  },
+                  child: Card(
+                    color: Color.fromARGB(255, 227, 239, 247),
+                    child:Text(''),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 40,
+                left: 35,
+                width: 160.0,
+                height: 260.0,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(text: '   '),
+                      TextSpan(
+                        text: '学習到達度',
+                        style: TextStyle(color: Color.fromARGB(255, 14, 71, 110), fontSize: 24),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 65,
+                right: 170,
+                //width: 200.0,
+                //height: 200.0,
+                child: CircleGraph()
+              ),
+              Positioned(
+                top: 60,
+                left: 265,
+                width: 160.0,
+                height: 260.0,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(text: '   '),
+                      TextSpan(
+                        text: '正解数：',
+                        style: TextStyle(color: Colors.black, fontSize: 13),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 60,
+                left: 245,
+                width: 160.0,
+                height: 260.0,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      WidgetSpan(
+                        child: Icon(Icons.content_copy_rounded),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 120,
+                left: 265,
+                width: 160.0,
+                height: 260.0,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(text: '   '),
+                      TextSpan(
+                        text: '不正解数：',
+                        style: TextStyle(color: Colors.black, fontSize: 13),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 120,
+                left: 245,
+                width: 160.0,
+                height: 260.0,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      WidgetSpan(
+                        child: Icon(Icons.content_copy_rounded),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 180,
+                left: 265,
+                width: 160.0,
+                height: 260.0,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(text: '   '),
+                      TextSpan(
+                        text: '未回答：',
+                        style: TextStyle(color: Colors.black, fontSize: 13),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 180,
+                left: 245,
+                width: 160.0,
+                height: 260.0,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      WidgetSpan(
+                        child: Icon(Icons.content_copy_rounded),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 240,
+                left: 255,
+                width: 160.0,
+                height: 260.0,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(text: '   '),
+                      TextSpan(
+                        text: '正答率：',
+                        style: TextStyle(color: Colors.black, fontSize: 13),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 242,
+                left: 330,
+                width: 160.0,
+                height: 260.0,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "%",
+                        style: TextStyle(color: Colors.black, fontSize: 13),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 310,
+                left: 20,
+                right: 20,
+                height: 180.0,
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      //ansORques = !ansORques;
+                    });
+                  },
+                  child: Card(
+                    color: Color.fromARGB(255, 227, 239, 247),
+                    child:Text(''),
+                  ),
+                ),
+              ),
+              // Positioned(
+              //   top: 260,
+              //   left: 1,
+              //   right: 1,
+              //   //height: 200.0,
+              //   child: BarGraph(),
+              // ),
+              Positioned(
+                top: 530,
+                left: 40,
+                width: 90.0,
+                height: 90.0,
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      Navigator.pushNamed(context, '/word_list');
+                    });
+                  },
+                  child: Card(
+                    color: Color.fromARGB(255, 124, 175, 237),
+                    child:Icon(Icons.content_copy_rounded, color: const Color.fromARGB(255, 255, 255, 255),),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 530,
+                right: 40,
+                width: 90.0,
+                height: 90.0,
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      Navigator.pushNamed(context, '/settings');
+                    });
+                  },
+                  child: Card(
+                    color: Color.fromARGB(255, 152, 152, 152),
+                    child:Icon(Icons.settings_outlined, color: const Color.fromARGB(255, 255, 255, 255),),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 530,
+                right: 150,
+                width: 90.0,
+                height: 90.0,
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      Navigator.pushNamed(context, '/word_add');
+                    });
+                  },
+                  child: Card(
+                    color: Color.fromARGB(255, 117, 214, 141),
+                    child:Icon(Icons.add_circle_outline, color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, '/word_add'),
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      // floatingActionButton: FloatingActionButton(
+      //   child: const Icon(Icons.add),
+      //   onPressed: () => Navigator.pushNamed(context, '/word_add'),
+      // ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () => Navigator.pushNamed(context, '/word_add'),
+      //   tooltip: 'Increment',
+      //   child: const Icon(Icons.add),
+      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
