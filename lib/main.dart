@@ -14,6 +14,7 @@ import 'models/word.dart';
 import 'package:trackjob2024/services/circle_graph.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 

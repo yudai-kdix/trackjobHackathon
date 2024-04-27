@@ -14,7 +14,7 @@ class DatabaseHelper {
   DatabaseHelper._internal() {
     _database = _initDatabase();
   }
-  static final DatabaseHelper _instance = DatabaseHelper._internal();
+  static final DatabaseHelper _ = DatabaseHelper._internal();
 
   static Future<Database>? _database;
 
@@ -26,7 +26,7 @@ class DatabaseHelper {
   //   return _database;
   // }
   factory DatabaseHelper() {
-    return _instance;
+    return _;
   }
 
   Future<Database> _initDatabase() async {
@@ -115,7 +115,7 @@ class DatabaseHelper {
       }
     } else if (table == 'tag') {
       List<Map> maps = await db.query(tagTable,
-          columns: ['id', 'name','countTrue','countFalse' ,'isMemorized'],
+          columns: ['id', 'name', 'countTrue', 'countFalse', 'isMemorized'],
           where: 'id = ?',
           whereArgs: [id]);
       if (maps.isNotEmpty) {
@@ -141,7 +141,7 @@ class DatabaseHelper {
   }
 
   // データの削除
-  Future<int> deleteData(String table,int id) async {
+  Future<int> deleteData(String table, int id) async {
     Database db = await _database!;
     if (table == 'word') {
       return await db.delete(wordTable, where: 'id = ?', whereArgs: [id]);

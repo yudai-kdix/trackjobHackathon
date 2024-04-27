@@ -22,7 +22,7 @@ class _WordAnswerViewState extends State<WordAnswerView> {
   //   Word(term: 'Example4', definition: 'これは例です', tags: ['Tag1', 'Tag4'], judge1: true, judge2: true),
   //   // 他の単語データ
   // ];
-  final Future<List<Word>> words = DatabaseHelper().queryAllData('word') as Future<List<Word>>;
+  final Future<List<Word>> words = DatabaseHelper().queryAllData('word').then((list) => list.cast<Word>());
   late List<int> id_box;
   late int id;
   bool ansORques = true;
