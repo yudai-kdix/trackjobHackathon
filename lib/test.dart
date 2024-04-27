@@ -11,7 +11,7 @@ class TestView extends StatefulWidget {
 }
 
 class _QuestionListViewState extends State<TestView> {
-  final Future<List<Word>> words = DatabaseHelper().queryAllWords();
+  final Future<List<Word>> words = DatabaseHelper().queryAllData('word') as Future<List<Word>>;
 //  final List<Word> words =
   // DatabaseHelper.instance.queryAllWords();
   // ほかクラスから保存されているデータ一覧を取得する処理を追加
