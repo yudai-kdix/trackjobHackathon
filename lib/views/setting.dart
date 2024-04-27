@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:trackjob2024/models/word.dart';
+//import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class SettingsView extends StatefulWidget {
 
@@ -13,7 +14,8 @@ class SettingsView extends StatefulWidget {
 
 class _SettingsViewState extends State<SettingsView> {
   String text = "";
-  String search_tag = "";
+  //String search_tag = "";
+  int frequency = 60;
   bool Flag1 = false;
   bool Flag2 = false;
   bool notificationsEnabled = true;
@@ -166,16 +168,16 @@ class _SettingsViewState extends State<SettingsView> {
                         labelText: '通知する単語のカテゴリを入力',
                         fillColor: Color.fromARGB(255, 255, 255, 255),
                         filled: true,
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            Icons.arrow_circle_right_outlined,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              search_tag = text;
-                            });
-                          },
-                        ),
+                        // suffixIcon: IconButton(
+                        //   icon: Icon(
+                        //     Icons.arrow_circle_right_outlined,
+                        //   ),
+                        //   onPressed: () {
+                        //     setState(() {
+                        //       search_tag = text;
+                        //     });
+                        //   },
+                        // ),
                       ),
                       //onSaved: (value) => ,
                       validator: (value) => value == null || value.isEmpty
@@ -235,6 +237,65 @@ class _SettingsViewState extends State<SettingsView> {
                     TextSpan(text: '   '),
                     TextSpan(
                       text: '通知頻度',
+                      style: TextStyle(color: Colors.black, fontSize: 18),
+                    ),
+                  ],
+                ),
+              ),
+              ),
+              Positioned(
+                top: 125,
+                //right: 10,
+                right: 120,
+                //width: 160.0,
+                //height: 260.0,
+                child: Container(
+                    width: 60,
+                    height: 35,
+                    //margin: const EdgeInsets.only(bottom: 5),
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      onChanged: (value){
+                        frequency = int.parse(value);
+                      },
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)), 
+                        labelText: '60',
+                        fillColor: Color.fromARGB(255, 255, 255, 255),
+                        filled: true,
+                        // suffixIcon: IconButton(
+                        //   icon: Icon(
+                        //     Icons.arrow_circle_right_outlined,
+                        //   ),
+                        //   onPressed: () {
+                        //     setState(() {
+                        //       search_tag = text;
+                        //     });
+                        //   },
+                        // ),
+                      ),
+                      //onSaved: (value) => ,
+                      validator: (value) => value == null || value.isEmpty
+                          ? 'Error'
+                          : null, //valueがnullまたは空（isEmptyがtrue）の場合には指定されたエラーメッセージを返し、それ以外の場合にはnullを返してバリデーションが成功したことを示す
+                    ),
+                ),
+              ),
+              Positioned(
+                top: 130,
+                //right: 10,
+                right: 40,
+                //width: 160.0,
+                //height: 260.0,
+                child: RichText(
+                text: TextSpan(
+                  children: [
+                    // WidgetSpan(
+                    //   child: Icon(Icons.assessment_outlined),
+                    // ),
+                    TextSpan(text: '   '),
+                    TextSpan(
+                      text: '分に１回',
                       style: TextStyle(color: Colors.black, fontSize: 18),
                     ),
                   ],
@@ -318,6 +379,33 @@ class _SettingsViewState extends State<SettingsView> {
                 ),
               ),
               ),
+              // Positioned(
+              //   top: 185,
+              //   //right: 10,
+              //   left: 40,
+              //   //width: 160.0,
+              //   //height: 260.0,
+              //   child: TextButton(
+              //       onPressed: () {
+              //         DatePicker.showTimePicker(context,
+              //           showTitleActions: true,
+              //           showSecondsColumn: true,
+              //           onChanged: (date) {
+              //             print(date);
+              //           },
+              //           onConfirm: (date) {
+              //             print(date);
+              //           },
+              //           currentTime: DateTime.now(),
+              //           locale: LocaleType.jp
+              //         );
+              //       },
+              //       child: const Text(
+              //         '時間を選択',
+              //         style: TextStyle(color: Colors.blue),
+              //       ),
+              //   ),
+              // ),
               Positioned(
                 top: 425,
                 //right: 10,
@@ -389,6 +477,39 @@ class _SettingsViewState extends State<SettingsView> {
                     });
                   },
                 ),
+              ),
+              Positioned(
+                top: 550,
+                //right: 10,
+                right: 130,
+                width: 140.0,
+                height: 70.0,
+                child: InkWell(
+                  onTap: () {
+                    //保存
+                  },
+                  child: Card(
+                    child: Text(''),
+                    color: Colors.green,
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 573,
+                //right: 10,
+                right: 143,
+                //width: 160.0,
+                //height: 260.0,
+                child: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '設定を保存する',
+                      style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255), fontSize: 16),
+                    ),
+                  ],
+                ),
+              ),
               ),
               // Column(
               //   children: [
