@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:trackjob2024/models/word.dart';
+import 'package:trackjob2024/services/database_helper.dart';
 
 class WordAnswerView extends StatefulWidget {
   final List<int> checkList;
@@ -14,13 +15,14 @@ class WordAnswerView extends StatefulWidget {
 }
 
 class _WordAnswerViewState extends State<WordAnswerView> {
-  final List<Word> words = [
-    Word(term: 'Example', definition: 'これは例です', tags: ['Tag1', 'Tag2'], judge1: true, judge2: true),
-    Word(term: 'Example2', definition: 'これは例です', tags: ['Tag3', 'Tag2'], judge1: true, judge2: true),
-    Word(term: 'Example3', definition: 'これは例です', tags: ['Tag1', 'Tag3'], judge1: true, judge2: true),
-    Word(term: 'Example4', definition: 'これは例です', tags: ['Tag1', 'Tag4'], judge1: true, judge2: true),
-    // 他の単語データ
-  ];
+  // final List<Word> words = [
+  //   Word(term: 'Example', definition: 'これは例です', tags: ['Tag1', 'Tag2'], judge1: true, judge2: true),
+  //   Word(term: 'Example2', definition: 'これは例です', tags: ['Tag3', 'Tag2'], judge1: true, judge2: true),
+  //   Word(term: 'Example3', definition: 'これは例です', tags: ['Tag1', 'Tag3'], judge1: true, judge2: true),
+  //   Word(term: 'Example4', definition: 'これは例です', tags: ['Tag1', 'Tag4'], judge1: true, judge2: true),
+  //   // 他の単語データ
+  // ];
+  final Future<List<Word>> words = DatabaseHelper().queryAllWords();
 
   late List<int> id_box;
   late int id;
@@ -37,9 +39,9 @@ class _WordAnswerViewState extends State<WordAnswerView> {
     //f2 = widget.flag2;
   }
   Widget build(BuildContext context) {
-    String Term = words[id].term;
-    String Difinition = words[id].definition;
-    List <String>Tags = words[id].tags;
+    //String Term = words[id].term;
+    // String Difinition = words[id].definition;
+    // List <String>Tags = words[id].tags;
     
     int index_num = id_box.indexOf(id);
     int nex_index_num = index_num + 1;
@@ -126,147 +128,163 @@ class _WordAnswerViewState extends State<WordAnswerView> {
       ),
       body: Stack(
         children: [
-          ListView(
-            children: <Widget>[
-              SizedBox(
-                height: 450,
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      ansORques = !ansORques;
-                    });
-                  },
-                  child: Card(
-                    color: Color.fromARGB(255, 227, 239, 247),
-                    child: Column(
-                      children: [
-                        Container(
-                          child: ListTile(
-                            trailing: Wrap(
-                              spacing: 8, // アイコンの間の幅を調整
+          Flexible(
+            child: FutureBuilder<List<Word>>(
+              future: words,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 450,
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              ansORques = !ansORques;
+                            });
+                          },
+                          child: Card(
+                            color: Color.fromARGB(255, 227, 239, 247),
+                            child: Column(
                               children: [
-                              IconButton(
-                                  icon: Icon(
-                                    words[id].judge1 ? Icons.check_box_outlined : Icons.check_box_rounded,
+                                Container(
+                                  child: ListTile(
+                                    trailing: Wrap(
+                                      spacing: 8, // アイコンの間の幅を調整
+                                      children: [
+                                      IconButton(
+                                          icon: Icon(
+                                            snapshot.data![id].judge1 ? Icons.check_box_outlined : Icons.check_box_rounded,
+                                            ),
+                                          onPressed: () {
+                                            setState(() {           
+                                              snapshot.data![id].judge1 = !snapshot.data![id].judge1;
+                                              DatabaseHelper().updateWord(snapshot.data![id]);
+                                            });
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: Icon(
+                                            snapshot.data![id].judge2 ? Icons.bookmark_outline_outlined : Icons.bookmark_outlined,
+                                            ),
+                                          onPressed: () {
+                                            setState(() {
+                                              snapshot.data![id].judge2 = !snapshot.data![id].judge2;
+                                              DatabaseHelper().updateWord(snapshot.data![id]);
+                                          });
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: Icon(Icons.border_color_outlined),
+                                          onPressed: () {
+                                            //onpress action
+                                        //onTap: () =>
+                                          //Navigator.pushNamed(context, '/detail', arguments: word),
+                                          },
+                                        ),
+                                      ],
                                     ),
-                                  onPressed: () {
-                                    setState(() {                   
-                                      words[id].judge1 = !words[id].judge1;
-                                    });
-                                  },
+                                  ),
                                 ),
-                                IconButton(
-                                  icon: Icon(
-                                    words[id].judge2 ? Icons.bookmark_outline_outlined : Icons.bookmark_outlined,
-                                    ),
-                                  onPressed: () {
-                                    setState(() {
-                                      words[id].judge2 = !words[id].judge2;
-                                  });
-                                  },
+                                SizedBox(
+                                  height: 150,
                                 ),
-                                IconButton(
-                                  icon: Icon(Icons.border_color_outlined),
-                                  onPressed: () {
-                                    //onpress action
-                                //onTap: () =>
-                                  //Navigator.pushNamed(context, '/detail', arguments: word),
-                                  },
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: ansORques ? Text(style: TextStyle(fontSize: 50),snapshot.data![id].term) : Text(style: TextStyle(fontSize: 50),snapshot.data![id].definition),
                                 ),
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 150,
-                        ),
-                        Align(
-                          alignment: Alignment.center,
-                          child: ansORques ? Text(style: TextStyle(fontSize: 50),Term) : Text(style: TextStyle(fontSize: 50),Difinition),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                height: 50,
-                width: double.infinity, //横幅いっぱいを意味する
-                color: Color.fromARGB(255, 95, 160, 231), //広がっているか色をつけて確認
-                child: ListTile(
-                  trailing: Wrap(
-                    spacing: 0, // アイコンの間の幅を調整
-                    children: [
-                      
-                      IconButton(
-                        icon: Icon(
-                          correct_tag ? Icons.check_box_rounded : Icons.check_box_outlined,
-                          ),
-                        color: Colors.white,
-                        onPressed: () {
-                          setState(() {
-                            correct_tag = !correct_tag;
-                          });
-                        },
                       ),
-                      IconButton(
-                        icon: Icon(
-                          irrcorrect_tag ? Icons.bookmark_outlined : Icons.bookmark_outline_outlined,
-                          ),
-                        color: Colors.white,
-                        onPressed: () {
-                          setState(() {
-                            irrcorrect_tag = !irrcorrect_tag;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 120,
-                child: Card(
-                  color: Color.fromARGB(255, 227, 239, 247),
-                  child: Column(
-                    children: <Widget>[
                       Container(
+                        height: 50,
+                        width: double.infinity, //横幅いっぱいを意味する
+                        color: Color.fromARGB(255, 95, 160, 231), //広がっているか色をつけて確認
                         child: ListTile(
                           trailing: Wrap(
-                            spacing: 8, // アイコンの間の幅を調整
+                            spacing: 0, // アイコンの間の幅を調整
                             children: [
-                              IconButton(
-                                icon: Icon(Icons.border_color_outlined),
-                                onPressed: () {
-                                    //onpress action
-                                //onTap: () =>
-                                  //Navigator.pushNamed(context, '/detail', arguments: word),
-                                  },
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
                               
+                              IconButton(
+                                icon: Icon(
+                                  correct_tag ? Icons.check_box_rounded : Icons.check_box_outlined,
+                                  ),
+                                color: Colors.white,
+                                onPressed: () {
+                                  setState(() {
+                                    correct_tag = !correct_tag;
+                                  });
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  irrcorrect_tag ? Icons.bookmark_outlined : Icons.bookmark_outline_outlined,
+                                  ),
+                                color: Colors.white,
+                                onPressed: () {
+                                  setState(() {
+                                    irrcorrect_tag = !irrcorrect_tag;
+                                  });
+                                },
+                              ),
                             ],
                           ),
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          for (int i = 0; i < Tags.length; i++) ... {
-                            Text('#'),
-                            Text(Tags[i]),
-                            (i < Tags.length - 1) ? Text(','):Text(''),
-                            (i < Tags.length - 1) ? Text('    '):Text(''),
-                          },
-                        ],
+                      SizedBox(
+                        height: 120,
+                        child: Card(
+                          color: Color.fromARGB(255, 227, 239, 247),
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                child: ListTile(
+                                  trailing: Wrap(
+                                    spacing: 8, // アイコンの間の幅を調整
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(Icons.border_color_outlined),
+                                        onPressed: () {
+                                            //onpress action
+                                        //onTap: () =>
+                                          //Navigator.pushNamed(context, '/detail', arguments: word),
+                                          },
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  for (int i = 0; i < snapshot.data![id].tags.length; i++) ... {
+                                    Text('#'),
+                                    Text(snapshot.data![id].tags[i]),
+                                    (i < snapshot.data![id].tags.length - 1) ? Text(','):Text(''),
+                                    (i < snapshot.data![id].tags.length - 1) ? Text('    '):Text(''),
+                                  },
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
-                  ),
-                ),
-              ),
-            ],
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),
           ),
           Positioned(
             top: 60,

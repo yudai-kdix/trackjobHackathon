@@ -11,16 +11,17 @@ class QuestionListView extends StatefulWidget {
 }
 
 class _QuestionListViewState extends State<QuestionListView> {
-  final List<Word> words = [
-    Word(term: 'Example1', definition: 'これは例です', tags: ['Tag1', 'Tag2'], judge1: true, judge2: true),
-    Word(term: 'Example2', definition: 'これは例です', tags: ['Tag3', 'Tag2'], judge1: true, judge2: true),
-    Word(term: 'Example3', definition: 'これは例です', tags: ['Tag1', 'Tag3'], judge1: true, judge2: true),
-    Word(term: 'Example4', definition: 'これは例です', tags: ['Tag1', 'Tag4'], judge1: true, judge2: true),
-    // 他の単語データ
-  ]; 
+  // final List<Word> words = [
+  //   Word(term: 'Example1', definition: 'これは例です', tags: ['Tag1', 'Tag2'], judge1: true, judge2: true),
+  //   Word(term: 'Example2', definition: 'これは例です', tags: ['Tag3', 'Tag2'], judge1: true, judge2: true),
+  //   Word(term: 'Example3', definition: 'これは例です', tags: ['Tag1', 'Tag3'], judge1: true, judge2: true),
+  //   Word(term: 'Example4', definition: 'これは例です', tags: ['Tag1', 'Tag4'], judge1: true, judge2: true),
+  //   // 他の単語データ
+  // ]; 
 //  final List<Word> words = DatabaseHelper.instance.queryAllWords();
   // DatabaseHelper.instance.queryAllWords();
   // ほかクラスから保存されているデータ一覧を取得する処理を追加
+  final Future<List<Word>> words = DatabaseHelper().queryAllWords();
 
   var _city = '';
   bool flag1 = false;
@@ -175,64 +176,77 @@ class _QuestionListViewState extends State<QuestionListView> {
             ),
           ),
           Flexible(
-            child: ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: words.length,
-              itemBuilder: (context, index) {
-                Word word = words[index];
-                int id = index;
-                bool JUDGE = false;
+            child: FutureBuilder<List<Word>>(
+              future: words,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      int id = index;
+                      bool JUDGE = false;
 
-                //チェックアイコンがあるものは表示せず、タグアイコンのあるものは表示する
-                (flag1 && !word.judge1) || (flag2 && word.judge2) ? JUDGE = false:JUDGE = true;
-                ((search_tag == "") || (word.tags.contains(search_tag)) || (word.tags.contains(search_tag))) && JUDGE ? id_box.add(id):id_box = id_box;
-                //タグ検索
-                return ((search_tag == "") || (word.tags.contains(search_tag))) && JUDGE ? Card(
-                  color: Color.fromARGB(255, 227, 239, 247),
-                  child: ListTile(
-                    title: Text(word.term),
-                    subtitle: Text(word.definition),
-                    trailing: Wrap(
-                      spacing: 8, // アイコンの間の幅を調整
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                            word.judge1 ? Icons.check_box_outlined : Icons.check_box_rounded,
-                            ),
-                          onPressed: () {
-                            setState(() {
-                              id_box = [];
-                              word.judge1 = !word.judge1;
-                            });
-                          },
+                      //チェックアイコンがあるものは表示せず、タグアイコンのあるものは表示する
+                      (flag1 && !snapshot.data![index].judge1) || (flag2 && snapshot.data![index].judge2) ? JUDGE = false:JUDGE = true;
+                      ((search_tag == "") || (snapshot.data![index].tags.contains(search_tag)) || (snapshot.data![index].tags.contains(search_tag))) && JUDGE ? id_box.add(id):id_box = id_box;
+                      //タグ検索
+                      return ((search_tag == "") || (snapshot.data![index].tags.contains(search_tag))) && JUDGE ? Card(
+                        color: Color.fromARGB(255, 227, 239, 247),
+                        child: ListTile(
+                          title: Text(snapshot.data![index].term),
+                          subtitle: Text(snapshot.data![index].definition),
+                          trailing: Wrap(
+                            spacing: 8, // アイコンの間の幅を調整
+                            children: [
+                              IconButton(
+                                icon: Icon(
+                                  snapshot.data![index].judge1 ? Icons.check_box_outlined : Icons.check_box_rounded,
+                                  ),
+                                onPressed: () {
+                                  setState(() {
+                                    id_box = [];
+                                    snapshot.data![index].judge1 = !snapshot.data![index].judge1;
+                                    DatabaseHelper().updateWord(snapshot.data![id]);
+                                  });
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  snapshot.data![index].judge2 ? Icons.bookmark_outline_outlined : Icons.bookmark_outlined,
+                                  ),
+                                onPressed: () {
+                                  setState(() {
+                                    id_box = [];
+                                    snapshot.data![index].judge2 = !snapshot.data![index].judge2;
+                                    DatabaseHelper().updateWord(snapshot.data![id]);
+                                  });
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.border_color_outlined),
+                                onPressed: () {
+                                  //onpress action
+                                },
+                              ),
+                            ],
+                          ),
+                          onTap: () =>
+                            //Navigator.pushNamed(context, '/detail', arguments: word),
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: id_box, checkid: id,)),
+                          ),
                         ),
-                        IconButton(
-                          icon: Icon(
-                            word.judge2 ? Icons.bookmark_outline_outlined : Icons.bookmark_outlined,
-                            ),
-                          onPressed: () {
-                            setState(() {
-                              id_box = [];
-                              word.judge2 = !word.judge2;
-                            });
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.border_color_outlined),
-                          onPressed: () {
-                            //onpress action
-                          },
-                        ),
-                      ],
-                    ),
-                    onTap: () =>
-                      //Navigator.pushNamed(context, '/detail', arguments: word),
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: id_box, checkid: id,)),
-                    ),
-                  ),
-                ):SizedBox(height: 0);
-              },
+                      ):SizedBox(height: 0);
+                    },
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
             ),
           ),
           
