@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trackjob2024/services/notification_service.dart';
+import 'package:trackjob2024/services/notification_word.dart';
 import 'package:trackjob2024/test.dart';
 import 'package:trackjob2024/views/add_word_view.dart';
 import 'package:trackjob2024/views/question_list_view.dart';
@@ -10,11 +11,17 @@ import 'package:trackjob2024/views/setting.dart';
 import 'models/word.dart';
 
 void main() async {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  
+  MyApp(
+    {super.key}
+  );
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  NotificationWord notificationWord = NotificationWord();
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,6 +30,7 @@ class MyApp extends StatelessWidget {
         // ここでテーマを設定
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
+      navigatorKey: navigatorKey,
       routes: {
         //ここで定義したものは他で Navigator.pushNamed(context, '/ルート名');で画面が遷移するはず
         '/': (context) => const MyHomePage(title: '単語暗記アプリ'),

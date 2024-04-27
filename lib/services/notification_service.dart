@@ -1,19 +1,23 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:trackjob2024/main.dart';
+import 'package:trackjob2024/services/database_helper.dart';
+import 'package:trackjob2024/views/word_answer_view.dart';
 
 class notification_service {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-  late Timer timer;
+  // late Timer timer;
   // 通知の時間設定
-  int startTime = 8; // 8時から
-  int endTime = 20; // 20時まで
-  int notificationInterval = 1; // 一時間毎
-
-  //  メモ 
+  // int startTime = 8; // 8時から
+  // int endTime = 20; // 20時まで
+  // int notificationInterval = 1; // 一時間毎
+  final GlobalKey<NavigatorState> navigatorKey = MyApp().navigatorKey;
+  //  メモ
   // 今通知を1時間毎に自動に実行するメソッドを書いたが、単語をランダムに送ることを考えると、別の場所で1時間毎に通知を呼び出すメソッドにしたほうがいいかも
-  
+
   notification_service() {
     _initializeNotifications();
   }
@@ -31,10 +35,12 @@ class notification_service {
     );
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
+      onDidReceiveNotificationResponse: _onDidReceiveNotificationResponse,
     );
   }
+
   // 引数で受け取ったbodyを通知する
-  void setNotification(body) async {
+  void setNotification(body, payload) async {
     const DarwinNotificationDetails iOSPlatformChannelSpecifics =
         DarwinNotificationDetails(
             // sound: 'example.mp3',
@@ -44,53 +50,58 @@ class notification_service {
     NotificationDetails platformChannelSpecifics =
         const NotificationDetails(iOS: iOSPlatformChannelSpecifics);
     await Future.delayed(const Duration(seconds: 10));
-    await flutterLocalNotificationsPlugin.show(
-        0, '単語暗記アプリ', body, platformChannelSpecifics);
+    await flutterLocalNotificationsPlugin
+        .show(0, '単語暗記アプリ', body, platformChannelSpecifics, payload: payload);
   }
+
   // 1時間ごとに通知をスケジュールする
-  void scheduleNotification(body) {
-    timer = Timer.periodic(Duration(hours: notificationInterval), (Timer t) async {
-      int hour = DateTime.now().hour;
-      if (hour >= startTime && hour < endTime) {
-        // 8時から19時まで1時間ごとに通知
-        await showHourlyNotification(body);
-      }
-    });
-  }
-  // 通知を表示する
-  Future<void> showHourlyNotification(body) async {
-    const androidDetails = AndroidNotificationDetails(
-      'channel_id',
-      'channel_name',
-      importance: Importance.max,
-      priority: Priority.high,
-      playSound: true,
-    );
-    const iosDetails = DarwinNotificationDetails();
-    const generalNotificationDetails = NotificationDetails(
-      android: androidDetails,
-      iOS: iosDetails,
-    );
+  // void scheduleNotification(body) {
+  //   timer =
+  //       Timer.periodic(Duration(hours: notificationInterval), (Timer t) async {
+  //     int hour = DateTime.now().hour;
+  //     if (hour >= startTime && hour < endTime) {
+  //       // 8時から19時まで1時間ごとに通知
+  //       await showHourlyNotification(body);
+  //     }
+  //   });
+  // }
 
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      '単語暗記アプリ',
-      body,
-      generalNotificationDetails,
-    );
-  }
-  // 通知をキャンセルする
-  void cancelNotification() {
-    timer.cancel();
-  }
+  // // 通知を表示する
+  // Future<void> showHourlyNotification(body) async {
+  //   const androidDetails = AndroidNotificationDetails(
+  //     'channel_id',
+  //     'channel_name',
+  //     importance: Importance.max,
+  //     priority: Priority.high,
+  //     playSound: true,
+  //   );
+  //   const iosDetails = DarwinNotificationDetails();
+  //   const generalNotificationDetails = NotificationDetails(
+  //     android: androidDetails,
+  //     iOS: iosDetails,
+  //   );
 
-  // 通知の時間を変更
-  void changeTime(int start, int end) {
-    startTime = start;
-    endTime = end;
-  }
+  //   await flutterLocalNotificationsPlugin.show(
+  //     0,
+  //     '単語暗記アプリ',
+  //     body,
+  //     generalNotificationDetails,
+  //   );
+  // }
 
-  void changeInterval(int interval) {
-    notificationInterval = interval;
+
+
+  void _onDidReceiveNotificationResponse(NotificationResponse response) {
+    List<int> idBox = [];
+    if (response.payload != null) {
+      for (var i = 0; i < int.parse(response.payload!); i++) { 
+        idBox.add(i);}
+      navigatorKey.currentState!.push(MaterialPageRoute(
+          builder: (context) => WordAnswerView(
+            // ここのidBoxなにいれればいいかわかんなかったので一旦全部のwordいれてみる
+                checkList: idBox,
+                checkid: response.payload as int,
+              )));
+    }
   }
 }
