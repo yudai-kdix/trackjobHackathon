@@ -22,8 +22,7 @@ class _WordAnswerViewState extends State<WordAnswerView> {
   //   Word(term: 'Example4', definition: 'これは例です', tags: ['Tag1', 'Tag4'], judge1: true, judge2: true),
   //   // 他の単語データ
   // ];
-  final Future<List<Word>> words = DatabaseHelper().queryAllWords();
-
+  final Future<List<Word>> words = DatabaseHelper().queryAllData('word') as Future<List<Word>>;
   late List<int> id_box;
   late int id;
   bool ansORques = true;
@@ -159,7 +158,7 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                                           onPressed: () {
                                             setState(() {           
                                               snapshot.data![id].judge1 = !snapshot.data![id].judge1;
-                                              DatabaseHelper().updateWord(snapshot.data![id]);
+                                              DatabaseHelper().updateData('word',snapshot.data![id]);
                                             });
                                           },
                                         ),
@@ -170,7 +169,7 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                                           onPressed: () {
                                             setState(() {
                                               snapshot.data![id].judge2 = !snapshot.data![id].judge2;
-                                              DatabaseHelper().updateWord(snapshot.data![id]);
+                                              DatabaseHelper().updateData('word',snapshot.data![id]);
                                           });
                                           },
                                         ),
