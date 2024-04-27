@@ -105,7 +105,7 @@ class _QuestionListViewState extends State<QuestionListView> {
           Container(
             height: 50,
             width: double.infinity, //横幅いっぱいを意味する
-            color: Color.fromARGB(255, 221, 226, 233), //広がっているか色をつけて確認
+            color: Color.fromARGB(255, 95, 160, 231), //広がっているか色をつけて確認
             child: ListTile(
               leading: Container(
                 width: 250,
@@ -146,6 +146,7 @@ class _QuestionListViewState extends State<QuestionListView> {
                     icon: Icon(
                       flag1 ? Icons.check_box_rounded : Icons.check_box_outlined,
                       ),
+                    color: Colors.white,
                     onPressed: () {
                       id_box = [];
                       setState(() {
@@ -158,6 +159,7 @@ class _QuestionListViewState extends State<QuestionListView> {
                     icon: Icon(
                       flag2 ? Icons.bookmark_outlined : Icons.bookmark_outline_outlined,
                       ),
+                    color: Colors.white,
                     onPressed: () {
                       id_box = [];
                       setState(() {
@@ -185,7 +187,7 @@ class _QuestionListViewState extends State<QuestionListView> {
                 ((search_tag == "") || (word.tags.contains(search_tag)) || (word.tags.contains(search_tag))) && JUDGE ? id_box.add(id):id_box = id_box;
                 //タグ検索
                 return ((search_tag == "") || (word.tags.contains(search_tag))) && JUDGE ? Card(
-                  color: Colors.grey[200],
+                  color: Color.fromARGB(255, 227, 239, 247),
                   child: ListTile(
                     title: Text(word.term),
                     subtitle: Text(word.definition),
