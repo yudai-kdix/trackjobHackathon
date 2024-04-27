@@ -48,17 +48,17 @@ class notification_service {
         0, '単語暗記アプリ', body, platformChannelSpecifics);
   }
   // 1時間ごとに通知をスケジュールする
-  void scheduleNotification() {
+  void scheduleNotification(body) {
     timer = Timer.periodic(Duration(hours: notificationInterval), (Timer t) async {
       int hour = DateTime.now().hour;
       if (hour >= startTime && hour < endTime) {
         // 8時から19時まで1時間ごとに通知
-        await showHourlyNotification();
+        await showHourlyNotification(body);
       }
     });
   }
   // 通知を表示する
-  Future<void> showHourlyNotification() async {
+  Future<void> showHourlyNotification(body) async {
     const androidDetails = AndroidNotificationDetails(
       'channel_id',
       'channel_name',
@@ -74,8 +74,8 @@ class notification_service {
 
     await flutterLocalNotificationsPlugin.show(
       0,
-      '時間通知',
-      '1時間ごとのリマインダー',
+      '単語暗記アプリ',
+      body,
       generalNotificationDetails,
     );
   }

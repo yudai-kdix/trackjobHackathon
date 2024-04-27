@@ -18,8 +18,7 @@ class _AddWordScreenState extends State<AddWordScreen> {
   void _saveWord() {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState!.save();
-      //TODO ここで単語をデータベースに保存する処理を行う
-      DatabaseHelper().insertWord(Word(term: _term, definition: _definition,tags: [_tags],judge1:true,judge2:true));
+      DatabaseHelper().insertData('word',Word(term: _term, definition: _definition,tags: [_tags],judge1:true,judge2:true));
       Navigator.pop(context); // 単語追加後は前の画面に戻る
     } else {
       // TODO エラーメッセージを表示
