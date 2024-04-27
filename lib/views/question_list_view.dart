@@ -21,7 +21,7 @@ class _QuestionListViewState extends State<QuestionListView> {
 //  final List<Word> words = DatabaseHelper.instance.queryAllWords();
   // DatabaseHelper.instance.queryAllWords();
   // ほかクラスから保存されているデータ一覧を取得する処理を追加
-  final Future<List<Word>> words = DatabaseHelper().queryAllData('word') as Future<List<Word>>;
+  final Future<List<Word>> words = DatabaseHelper().queryAllData('word').then((list) => list.cast<Word>());
 
   var _city = '';
   bool flag1 = false;
@@ -227,6 +227,10 @@ class _QuestionListViewState extends State<QuestionListView> {
                               IconButton(
                                 icon: Icon(Icons.border_color_outlined),
                                 onPressed: () {
+                                  setState(() {
+                                    DatabaseHelper().deleteData('word',id);
+                                    DatabaseHelper().updateData('word',snapshot.data![id]);
+                                  });
                                   //onpress action
                                 },
                               ),
