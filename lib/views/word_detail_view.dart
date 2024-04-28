@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:trackjob2024/models/word.dart'; // 日付のフォーマットに使用
 
 

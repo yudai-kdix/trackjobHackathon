@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:trackjob2024/models/word.dart';
 import 'package:trackjob2024/services/database_helper.dart';
 
@@ -8,7 +7,9 @@ class WordAnswerView extends StatefulWidget {
   final int checkid;
   //final bool flag1;
   //final bool flag2;
-  const WordAnswerView({Key? key, required this.checkList, required this.checkid}) : super(key: key);
+  const WordAnswerView(
+      {Key? key, required this.checkList, required this.checkid})
+      : super(key: key);
 
   @override
   _WordAnswerViewState createState() => _WordAnswerViewState();
@@ -22,7 +23,8 @@ class _WordAnswerViewState extends State<WordAnswerView> {
   //   Word(term: 'Example4', definition: 'これは例です', tags: ['Tag1', 'Tag4'], judge1: true, judge2: true),
   //   // 他の単語データ
   // ];
-  final Future<List<Word>> words = DatabaseHelper().queryAllData('word').then((list) => list.cast<Word>());
+  final Future<List<Word>> words =
+      DatabaseHelper().queryAllData('word').then((list) => list.cast<Word>());
   late List<int> id_box;
   late int id;
   bool ansORques = true;
@@ -31,17 +33,19 @@ class _WordAnswerViewState extends State<WordAnswerView> {
 
   @override
   void initState() {
+    print('WordAnswerView');
     super.initState();
     id_box = widget.checkList;
     id = widget.checkid;
     //f1 = widget.flag1;
     //f2 = widget.flag2;
   }
+
   Widget build(BuildContext context) {
     //String Term = words[id].term;
     // String Difinition = words[id].definition;
     // List <String>Tags = words[id].tags;
-    
+
     int index_num = id_box.indexOf(id);
     int nex_index_num = index_num + 1;
     int pre_index_num = index_num - 1;
@@ -73,7 +77,6 @@ class _WordAnswerViewState extends State<WordAnswerView> {
               ),
             ],
           ),
-
         ),
       ),
       endDrawer: Drawer(
@@ -151,34 +154,44 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                                     trailing: Wrap(
                                       spacing: 8, // アイコンの間の幅を調整
                                       children: [
-                                      IconButton(
+                                        IconButton(
                                           icon: Icon(
-                                            snapshot.data![id].judge1 ? Icons.check_box_outlined : Icons.check_box_rounded,
-                                            ),
+                                            snapshot.data![id].judge1
+                                                ? Icons.check_box_outlined
+                                                : Icons.check_box_rounded,
+                                          ),
                                           onPressed: () {
-                                            setState(() {           
-                                              snapshot.data![id].judge1 = !snapshot.data![id].judge1;
-                                              DatabaseHelper().updateData('word',snapshot.data![id]);
+                                            setState(() {
+                                              snapshot.data![id].judge1 =
+                                                  !snapshot.data![id].judge1;
+                                              DatabaseHelper().updateData(
+                                                  'word', snapshot.data![id]);
                                             });
                                           },
                                         ),
                                         IconButton(
                                           icon: Icon(
-                                            snapshot.data![id].judge2 ? Icons.bookmark_outline_outlined : Icons.bookmark_outlined,
-                                            ),
+                                            snapshot.data![id].judge2
+                                                ? Icons
+                                                    .bookmark_outline_outlined
+                                                : Icons.bookmark_outlined,
+                                          ),
                                           onPressed: () {
                                             setState(() {
-                                              snapshot.data![id].judge2 = !snapshot.data![id].judge2;
-                                              DatabaseHelper().updateData('word',snapshot.data![id]);
-                                          });
+                                              snapshot.data![id].judge2 =
+                                                  !snapshot.data![id].judge2;
+                                              DatabaseHelper().updateData(
+                                                  'word', snapshot.data![id]);
+                                            });
                                           },
                                         ),
                                         IconButton(
-                                          icon: Icon(Icons.border_color_outlined),
+                                          icon:
+                                              Icon(Icons.border_color_outlined),
                                           onPressed: () {
                                             //onpress action
-                                        //onTap: () =>
-                                          //Navigator.pushNamed(context, '/detail', arguments: word),
+                                            //onTap: () =>
+                                            //Navigator.pushNamed(context, '/detail', arguments: word),
                                           },
                                         ),
                                       ],
@@ -190,7 +203,13 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                                 ),
                                 Align(
                                   alignment: Alignment.center,
-                                  child: ansORques ? Text(style: TextStyle(fontSize: 50),snapshot.data![id].term) : Text(style: TextStyle(fontSize: 50),snapshot.data![id].definition),
+                                  child: ansORques
+                                      ? Text(
+                                          style: TextStyle(fontSize: 50),
+                                          snapshot.data![id].term)
+                                      : Text(
+                                          style: TextStyle(fontSize: 50),
+                                          snapshot.data![id].definition),
                                 ),
                               ],
                             ),
@@ -200,16 +219,18 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                       Container(
                         height: 50,
                         width: double.infinity, //横幅いっぱいを意味する
-                        color: Color.fromARGB(255, 95, 160, 231), //広がっているか色をつけて確認
+                        color:
+                            Color.fromARGB(255, 95, 160, 231), //広がっているか色をつけて確認
                         child: ListTile(
                           trailing: Wrap(
                             spacing: 0, // アイコンの間の幅を調整
                             children: [
-                              
                               IconButton(
                                 icon: Icon(
-                                  correct_tag ? Icons.check_box_rounded : Icons.check_box_outlined,
-                                  ),
+                                  correct_tag
+                                      ? Icons.check_box_rounded
+                                      : Icons.check_box_outlined,
+                                ),
                                 color: Colors.white,
                                 onPressed: () {
                                   setState(() {
@@ -219,8 +240,10 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                               ),
                               IconButton(
                                 icon: Icon(
-                                  irrcorrect_tag ? Icons.bookmark_outlined : Icons.bookmark_outline_outlined,
-                                  ),
+                                  irrcorrect_tag
+                                      ? Icons.bookmark_outlined
+                                      : Icons.bookmark_outline_outlined,
+                                ),
                                 color: Colors.white,
                                 onPressed: () {
                                   setState(() {
@@ -246,15 +269,14 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                                       IconButton(
                                         icon: Icon(Icons.border_color_outlined),
                                         onPressed: () {
-                                            //onpress action
-                                        //onTap: () =>
+                                          //onpress action
+                                          //onTap: () =>
                                           //Navigator.pushNamed(context, '/detail', arguments: word),
-                                          },
+                                        },
                                       ),
                                       SizedBox(
                                         height: 10,
                                       ),
-                                      
                                     ],
                                   ),
                                 ),
@@ -262,11 +284,17 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  for (int i = 0; i < snapshot.data![id].tags.length; i++) ... {
+                                  for (int i = 0;
+                                      i < snapshot.data![id].tags.length;
+                                      i++) ...{
                                     Text('#'),
                                     Text(snapshot.data![id].tags[i]),
-                                    (i < snapshot.data![id].tags.length - 1) ? Text(','):Text(''),
-                                    (i < snapshot.data![id].tags.length - 1) ? Text('    '):Text(''),
+                                    (i < snapshot.data![id].tags.length - 1)
+                                        ? Text(',')
+                                        : Text(''),
+                                    (i < snapshot.data![id].tags.length - 1)
+                                        ? Text('    ')
+                                        : Text(''),
                                   },
                                 ],
                               ),
@@ -293,10 +321,14 @@ class _WordAnswerViewState extends State<WordAnswerView> {
             child: TextButton(
               child: Text(''),
               style: TextButton.styleFrom(
-                //fixedSize: const Size(50,700),
-              ),
+                  //fixedSize: const Size(50,700),
+                  ),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: id_box, checkid: pre_id)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => WordAnswerView(
+                            checkList: id_box, checkid: pre_id)));
               },
             ),
           ),
@@ -308,10 +340,14 @@ class _WordAnswerViewState extends State<WordAnswerView> {
             child: TextButton(
               child: Text(''),
               style: TextButton.styleFrom(
-                //fixedSize: const Size(50,700),
-              ),
+                  //fixedSize: const Size(50,700),
+                  ),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: id_box, checkid: nex_id)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => WordAnswerView(
+                            checkList: id_box, checkid: nex_id)));
               },
             ),
           ),

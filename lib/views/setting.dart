@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:trackjob2024/models/word.dart';
 //import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class SettingsView extends StatefulWidget {
