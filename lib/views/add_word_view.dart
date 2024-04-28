@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:trackjob2024/models/word.dart';
 import 'package:trackjob2024/models/tags.dart';
+import 'package:trackjob2024/models/word.dart';
 import 'package:trackjob2024/services/database_helper.dart';
 
 class AddWordScreen extends StatefulWidget {
@@ -19,11 +19,21 @@ class _AddWordScreenState extends State<AddWordScreen> {
   void _saveWord() {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState!.save();
-      DatabaseHelper().insertData('word',Word(term: _term, definition: _definition,tags: [_tags],judge1:true,judge2:true));
-      // List<String> tag_list = [_tags];
-      // int len = tag_list.length;
-      // for (int i=0; i < len; i++) {
-      // DatabaseHelper().insertData('tag',Tags(name: tag_list[i], countTrue: 0, countFalse: 0));};
+      DatabaseHelper().insertData(
+          'word',
+          Word(
+              term: _term,
+              definition: _definition,
+              tags: [_tags],
+              judge1: true,
+              judge2: true));
+      List<String> tag_list = _tags.split(',');
+      int len = tag_list.length;
+      for (int i = 0; i < len; i++) {
+        DatabaseHelper().insertData(
+            'tag', Tags(name: tag_list[i], countTrue: 0, countFalse: 0));
+      }
+      ;
       Navigator.pop(context); // 単語追加後は前の画面に戻る
     } else {
       // TODO エラーメッセージを表示

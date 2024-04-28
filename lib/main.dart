@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:trackjob2024/models/tags.dart';
+import 'package:trackjob2024/services/circle_graph.dart';
+import 'package:trackjob2024/services/database_helper.dart';
 import 'package:trackjob2024/services/notification_word.dart';
 import 'package:trackjob2024/test.dart';
 import 'package:trackjob2024/views/add_word_view.dart';
 import 'package:trackjob2024/views/question_list_view.dart';
+import 'package:trackjob2024/views/setting.dart';
 // import 'package:trackjob2024/views/settings_view.dart';
 import 'package:trackjob2024/views/word_detail_view.dart';
-import 'package:trackjob2024/views/setting.dart';
+
 import 'models/word.dart';
-import 'package:trackjob2024/services/circle_graph.dart';
-import 'package:trackjob2024/services/database_helper.dart';
-import 'package:trackjob2024/models/word.dart';
-import 'package:trackjob2024/views/word_answer_view.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -21,12 +20,9 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  
-  MyApp(
-    {super.key}
-  );
+  MyApp({super.key});
   NotificationWord notificationWord = NotificationWord();
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,18 +30,18 @@ class MyApp extends StatelessWidget {
       title: '単語暗記アプリ',
       theme: ThemeData(
         // ここでテーマを設定
-        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 88, 154, 225)),
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 88, 154, 225)),
       ),
-      
       routes: {
         //ここで定義したものは他で Navigator.pushNamed(context, '/ルート名');で画面が遷移するはず
         '/': (context) => const MyHomePage(title: '単語暗記アプリ'),
         // TODO: クラスを設定したら外す。
         '/settings': (context) => SettingsView(),
         '/word_list': (context) => QuestionListView(), // 単語一覧画面
-        '/word_add':(context) => const AddWordScreen(), // 単語追加画面
+        '/word_add': (context) => const AddWordScreen(), // 単語追加画面
         // '/word_answer': (context) => WordAnswerView(), // 単語回答画面
-        '/test':(context) => const TestView(),
+        '/test': (context) => const TestView(),
         // 'word_detail': (context) => WordDetailView(), // 単語詳細画面
       },
       onGenerateRoute: (settings) {
@@ -73,7 +69,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final Future<List<Word>> words = DatabaseHelper().queryAllData('word').then((list) => list.cast<Word>());
+  final Future<List<Word>> words =
+      DatabaseHelper().queryAllData('word').then((list) => list.cast<Word>());
+  final Future<List<Tags>> tags =
+      DatabaseHelper().queryAllData('tag').then((list) => list.cast<Tags>());
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: 700,
                 width: 1000,
                 child: Card(
-                    child:Text(''),
+                  child: Text(''),
                 ),
               ),
               // Positioned(
@@ -179,7 +178,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                   child: Card(
                     color: Color.fromARGB(255, 227, 239, 247),
-                    child:Text(''),
+                    child: Text(''),
                   ),
                 ),
               ),
@@ -194,19 +193,20 @@ class _MyHomePageState extends State<MyHomePage> {
                       TextSpan(text: '   '),
                       TextSpan(
                         text: '学習到達度',
-                        style: TextStyle(color: Color.fromARGB(255, 14, 71, 110), fontSize: 24),
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 14, 71, 110),
+                            fontSize: 24),
                       ),
                     ],
                   ),
                 ),
               ),
               Positioned(
-                top: 65,
-                right: 170,
-                //width: 200.0,
-                //height: 200.0,
-                child: CircleGraph()
-              ),
+                  top: 65,
+                  right: 170,
+                  //width: 200.0,
+                  //height: 200.0,
+                  child: CircleGraph()),
               Positioned(
                 top: 60,
                 right: -42,
@@ -338,10 +338,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 right: 20,
                 height: 180.0,
                 child: Card(
-                    color: Color.fromARGB(255, 180, 216, 255),
-                    child:Text(''),
-                  ),
+                  color: Color.fromARGB(255, 180, 216, 255),
+                  child: Text(''),
                 ),
+              ),
               Positioned(
                 top: 320,
                 left: 35,
@@ -350,14 +350,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: LimitedBox(
                   maxWidth: 320,
                   maxHeight: 160,
-                  child: FutureBuilder<List<Word>>(
-                    future: words,
+                  child: FutureBuilder<List<Tags>>(
+                    future: tags,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        List<int> id_box = [];
-                        for (int i = 0; i < snapshot.data!.length; i++) {
-                          id_box.add(i);
-                        }
+                        // List<int> id_box = [];
+                        // for (int i = 0; i < snapshot.data!.length; i++) {
+                        //   id_box.add(i);
+                        // }
                         return ListView.builder(
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
@@ -365,18 +365,21 @@ class _MyHomePageState extends State<MyHomePage> {
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
                             return InkWell(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: id_box, checkid: index,)));
-                              },
+                              // onTap: () {
+                              //   Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: id_box, checkid: index,)));
+                              // },
                               child: Card(
                                 child: Container(
                                   width: 150,
                                   child: Center(
                                     child: Column(
                                       children: [
-                                        SizedBox(height: 50,),
-                                        Text('${snapshot.data![index].term}'),
-                                        Text('${snapshot.data![index].definition}'),
+                                        SizedBox(
+                                          height: 50,
+                                        ),
+                                        Text('${snapshot.data![index].name}'),
+                                        Text(
+                                            '${snapshot.data![index].countTrue}'),
                                       ],
                                     ),
                                   ),
@@ -408,7 +411,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                   child: Card(
                     color: Color.fromARGB(255, 124, 175, 237),
-                    child:Icon(Icons.content_copy_rounded, color: const Color.fromARGB(255, 255, 255, 255),),
+                    child: Icon(
+                      Icons.content_copy_rounded,
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                    ),
                   ),
                 ),
               ),
@@ -425,7 +431,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                   child: Card(
                     color: Color.fromARGB(255, 152, 152, 152),
-                    child:Icon(Icons.settings_outlined, color: const Color.fromARGB(255, 255, 255, 255),),
+                    child: Icon(
+                      Icons.settings_outlined,
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                    ),
                   ),
                 ),
               ),
@@ -442,7 +451,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                   child: Card(
                     color: Color.fromARGB(255, 117, 214, 141),
-                    child:Icon(Icons.add_circle_outline, color: Colors.white),
+                    child: Icon(Icons.add_circle_outline, color: Colors.white),
                   ),
                 ),
               ),
