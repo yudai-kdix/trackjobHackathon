@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/widgets.dart';
-import 'package:trackjob2024/services/notification_service.dart';
 import 'package:trackjob2024/services/notification_word.dart';
 import 'package:trackjob2024/test.dart';
 import 'package:trackjob2024/views/add_word_view.dart';
 import 'package:trackjob2024/views/question_list_view.dart';
 // import 'package:trackjob2024/views/settings_view.dart';
-import 'package:trackjob2024/services/bar_graph.dart';
 import 'package:trackjob2024/views/word_detail_view.dart';
 import 'package:trackjob2024/views/setting.dart';
 import 'models/word.dart';
@@ -15,6 +12,8 @@ import 'package:trackjob2024/services/circle_graph.dart';
 import 'package:trackjob2024/services/database_helper.dart';
 import 'package:trackjob2024/models/word.dart';
 import 'package:trackjob2024/views/word_answer_view.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,18 +25,18 @@ class MyApp extends StatelessWidget {
   MyApp(
     {super.key}
   );
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   NotificationWord notificationWord = NotificationWord();
   
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: '単語暗記アプリ',
       theme: ThemeData(
         // ここでテーマを設定
         colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 88, 154, 225)),
       ),
-      navigatorKey: navigatorKey,
+      
       routes: {
         //ここで定義したものは他で Navigator.pushNamed(context, '/ルート名');で画面が遷移するはず
         '/': (context) => const MyHomePage(title: '単語暗記アプリ'),

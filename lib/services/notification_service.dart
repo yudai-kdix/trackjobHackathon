@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:trackjob2024/main.dart';
-import 'package:trackjob2024/services/database_helper.dart';
 import 'package:trackjob2024/views/word_answer_view.dart';
 
 class notification_service {
@@ -14,7 +13,7 @@ class notification_service {
   // int startTime = 8; // 8時から
   // int endTime = 20; // 20時まで
   // int notificationInterval = 1; // 一時間毎
-  final GlobalKey<NavigatorState> navigatorKey = MyApp().navigatorKey;
+
   //  メモ
   // 今通知を1時間毎に自動に実行するメソッドを書いたが、単語をランダムに送ることを考えると、別の場所で1時間毎に通知を呼び出すメソッドにしたほうがいいかも
 
@@ -88,19 +87,27 @@ class notification_service {
   //     generalNotificationDetails,
   //   );
   // }
-
-
+  void setNavigatorKey(GlobalKey<NavigatorState> navigatorKey) {
+    navigatorKey = navigatorKey;
+  }
 
   void _onDidReceiveNotificationResponse(NotificationResponse response) {
+    print("通知を受け取りました");
+    print(navigatorKey.currentContext);
     List<int> idBox = [];
     if (response.payload != null) {
-      for (var i = 0; i < int.parse(response.payload!); i++) { 
-        idBox.add(i);}
+      print(response.payload);
+      for (var i = 0; i < int.parse(response.payload!) + 1; i++) {
+        idBox.add(i);
+        print(i);
+      }
+      print(navigatorKey.currentState);
+      print(idBox);
       navigatorKey.currentState!.push(MaterialPageRoute(
           builder: (context) => WordAnswerView(
-            // ここのidBoxなにいれればいいかわかんなかったので一旦全部のwordいれてみる
+                // ここのidBoxなにいれればいいかわかんなかったので一旦全部のwordいれてみる
                 checkList: idBox,
-                checkid: response.payload as int,
+                checkid: int.parse(response.payload as String),
               )));
     }
   }

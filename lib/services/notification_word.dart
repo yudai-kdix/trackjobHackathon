@@ -9,16 +9,20 @@ class NotificationWord {
   static late Future<List<Word>> wordList;
   static final noti = notification_service();
   static late Timer timer;
-  static int startTime = 8; // 8時から
+  static int startTime = 7; // 8時から
   static int endTime = 20; // 20時まで
-  static int notificationInterval = 60; // 一時間毎
+  static int notificationInterval = 1; // 一時間毎
   // static bool flag = false;
   static bool flag = true;
   // TODO 初期をtrueにしているが、本来はfalseにしておく
 
   NotificationWord() {
+    print("通知の初期設定を行います");
     wordList =
         DatabaseHelper().queryAllData('word').then((list) => list.cast<Word>());
+    // 10秒待機
+    Future.delayed(Duration(seconds: 10), () {});
+    setNotification();
     timer = Timer.periodic(Duration(minutes: notificationInterval),
         (Timer t) async {
       int hour = DateTime.now().hour;
@@ -34,10 +38,20 @@ class NotificationWord {
   }
 
   void setNotification() async {
-    final words = await wordList;
+    print("通知実行");
+    final words = await DatabaseHelper()
+        .queryAllData('word')
+        .then((list) => list.cast<Word>());
+    ;
     // wordsの中からランダムに一つ選ぶ
-    int index = math.Random().nextInt(words.length);
-    noti.setNotification(words[index].term, index.toString());
+    // nextIntは0がだめなのでいじる
+    if (words.isEmpty) {
+      // 単語が登録されていない場合は通知しない
+      print("単語が登録されていません");
+    } else {
+      int index = math.Random().nextInt(words.length);
+      noti.setNotification(words[index].term, index.toString());
+    }
   }
 
   // 通知をキャンセルする
