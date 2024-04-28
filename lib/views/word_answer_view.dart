@@ -139,6 +139,7 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                   Word word = snapshot.data![0];
                   for (int i = 0; i < snapshot.data!.length; i++) {
                     if (snapshot.data![i].id == id) {
+                      id = i;
                       word = snapshot.data![i] ;
                     }
                   }
@@ -171,6 +172,7 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                                             setState(() {
                                               word.judge1 =
                                                   !word.judge1;
+
                                               DatabaseHelper().updateData(
                                                   'word', word);
                                             });

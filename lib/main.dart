@@ -76,6 +76,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    int wordTrue =DatabaseHelper().getCountFalse('word');
+    int wordFalse =DatabaseHelper().getCountTrue('word');
+    double answerRate;
+    if (wordFalse + wordTrue == 0) {
+      answerRate = 0;
+    }else{
+      answerRate = wordTrue / (wordFalse + wordTrue);
+    }
+    
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -206,7 +215,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   right: 170,
                   //width: 200.0,
                   //height: 200.0,
-                  child: CircleGraph()),
+                  child: CircleGraph(answerRate)),
               Positioned(
                 top: 60,
                 right: -42,
@@ -216,7 +225,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: '正解数：',
+                        text: '正解数: $wordTrue',
                         style: TextStyle(color: Colors.black, fontSize: 13),
                       ),
                     ],
@@ -247,7 +256,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: '不正解数：',
+                        text: '不正解数： $wordFalse',
                         style: TextStyle(color: Colors.black, fontSize: 13),
                       ),
                     ],
@@ -278,7 +287,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: '未回答：',
+                        text: '未回答： ',
                         style: TextStyle(color: Colors.black, fontSize: 13),
                       ),
                     ],
@@ -309,7 +318,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: '正答率：',
+                        text: '正答率： $answerRate',
                         style: TextStyle(color: Colors.black, fontSize: 13),
                       ),
                     ],
@@ -325,7 +334,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: "%",
+                        text: "    %",
                         style: TextStyle(color: Colors.black, fontSize: 13),
                       ),
                     ],

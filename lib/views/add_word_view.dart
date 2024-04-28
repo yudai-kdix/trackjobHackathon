@@ -26,7 +26,9 @@ class _AddWordScreenState extends State<AddWordScreen> {
               definition: _definition,
               tags: [_tags],
               judge1: true,
-              judge2: true));
+              judge2: true,
+              countTrue: 0,
+              countFalse: 0));
       List<String> tag_list = _tags.split(',');
       int len = tag_list.length;
       for (int i = 0; i < len; i++) {

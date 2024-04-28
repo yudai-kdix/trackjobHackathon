@@ -60,9 +60,9 @@ class _CircleGraphPainter extends CustomPainter {
 }
 
 class CircleGraph extends StatelessWidget {
-  final percentage = 0.7; //正解数÷総単語数
+  double percentage; //正解数÷総単語数
   final size = 100.0;
-
+  CircleGraph(this.percentage, {super.key});
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
