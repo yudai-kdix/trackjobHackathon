@@ -144,6 +144,8 @@ class DatabaseHelper {
   Future<int> deleteData(String table, int id) async {
     Database db = await _database!;
     if (table == 'word') {
+      // return await db.delete(wordTable, where: 'id = ?', whereArgs: [id]);
+      print(id.toString() +"  hello is deleted");
       return await db.delete(wordTable, where: 'id = ?', whereArgs: [id]);
     } else if (table == 'tag') {
       return await db.delete(tagTable, where: 'id = ?', whereArgs: [id]);
