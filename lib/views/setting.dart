@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:trackjob2024/services/notification_word.dart';
 //import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class SettingsView extends StatefulWidget {
@@ -15,6 +16,8 @@ class _SettingsViewState extends State<SettingsView> {
   String text = "";
   //String search_tag = "";
   int frequency = 60;
+  int start_time = 8;
+  int end_time = 20;
   bool Flag1 = false;
   bool Flag2 = false;
   bool notificationsEnabled = true;
@@ -217,6 +220,11 @@ class _SettingsViewState extends State<SettingsView> {
                   onChanged: (bool value) {
                     setState(() {
                       notificationsEnabled = value;
+                      if (notificationsEnabled == true) {
+                        NotificationWord().startTimer();
+                      } else {
+                        NotificationWord().stopTimer();
+                      }
                     });
                   },
                 ),
@@ -249,35 +257,36 @@ class _SettingsViewState extends State<SettingsView> {
                 //width: 160.0,
                 //height: 260.0,
                 child: Container(
-                    width: 60,
-                    height: 35,
-                    //margin: const EdgeInsets.only(bottom: 5),
-                    child: TextFormField(
-                      keyboardType: TextInputType.number,
-                      onChanged: (value){
-                        frequency = int.parse(value);
-                      },
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)), 
-                        labelText: '60',
-                        fillColor: Color.fromARGB(255, 255, 255, 255),
-                        filled: true,
-                        // suffixIcon: IconButton(
-                        //   icon: Icon(
-                        //     Icons.arrow_circle_right_outlined,
-                        //   ),
-                        //   onPressed: () {
-                        //     setState(() {
-                        //       search_tag = text;
-                        //     });
-                        //   },
-                        // ),
-                      ),
-                      //onSaved: (value) => ,
-                      validator: (value) => value == null || value.isEmpty
-                          ? 'Error'
-                          : null, //valueがnullまたは空（isEmptyがtrue）の場合には指定されたエラーメッセージを返し、それ以外の場合にはnullを返してバリデーションが成功したことを示す
+                  width: 60,
+                  height: 35,
+                  //margin: const EdgeInsets.only(bottom: 5),
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    onChanged: (value){
+                      frequency = int.parse(value);
+                      NotificationWord().changeInterval(frequency);
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)), 
+                      labelText: '60',
+                      fillColor: Color.fromARGB(255, 255, 255, 255),
+                      filled: true,
+                      // suffixIcon: IconButton(
+                      //   icon: Icon(
+                      //     Icons.arrow_circle_right_outlined,
+                      //   ),
+                      //   onPressed: () {
+                      //     setState(() {
+                      //       search_tag = text;
+                      //     });
+                      //   },
+                      // ),
                     ),
+                    //onSaved: (value) => ,
+                    validator: (value) => value == null || value.isEmpty
+                        ? 'Error'
+                        : null, //valueがnullまたは空（isEmptyがtrue）の場合には指定されたエラーメッセージを返し、それ以外の場合にはnullを返してバリデーションが成功したことを示す
+                  ),
                 ),
               ),
               Positioned(
@@ -378,6 +387,83 @@ class _SettingsViewState extends State<SettingsView> {
                 ),
               ),
               ),
+              Positioned(
+                top: 185,
+                //right: 10,
+                right: 120,
+                //width: 160.0,
+                //height: 260.0,
+                child: Container(
+                  width: 45,
+                  height: 35,
+                  //margin: const EdgeInsets.only(bottom: 5),
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    onChanged: (value){
+                      start_time = int.parse(value);
+                      NotificationWord().changeTime(start_time, end_time);
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)), 
+                      labelText: '8',
+                      fillColor: Color.fromARGB(255, 255, 255, 255),
+                      filled: true,
+                      // suffixIcon: IconButton(
+                      //   icon: Icon(
+                      //     Icons.arrow_circle_right_outlined,
+                      //   ),
+                      //   onPressed: () {
+                      //     setState(() {
+                      //       search_tag = text;
+                      //     });
+                      //   },
+                      // ),
+                    ),
+                    //onSaved: (value) => ,
+                    validator: (value) => value == null || value.isEmpty
+                        ? 'Error'
+                        : null, //valueがnullまたは空（isEmptyがtrue）の場合には指定されたエラーメッセージを返し、それ以外の場合にはnullを返してバリデーションが成功したことを示す
+                  ),
+                ),
+              ),Positioned(
+                top: 185,
+                //right: 10,
+                right: 40,
+                //width: 160.0,
+                //height: 260.0,
+                child: Container(
+                  width: 45,
+                  height: 35,
+                  //margin: const EdgeInsets.only(bottom: 5),
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    onChanged: (value){
+                      end_time = int.parse(value);
+                      NotificationWord().changeTime(start_time, end_time);
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)), 
+                      labelText: '20',
+                      fillColor: Color.fromARGB(255, 255, 255, 255),
+                      filled: true,
+                      // suffixIcon: IconButton(
+                      //   icon: Icon(
+                      //     Icons.arrow_circle_right_outlined,
+                      //   ),
+                      //   onPressed: () {
+                      //     setState(() {
+                      //       search_tag = text;
+                      //     });
+                      //   },
+                      // ),
+                    ),
+                    //onSaved: (value) => ,
+                    validator: (value) => value == null || value.isEmpty
+                        ? 'Error'
+                        : null, //valueがnullまたは空（isEmptyがtrue）の場合には指定されたエラーメッセージを返し、それ以外の場合にはnullを返してバリデーションが成功したことを示す
+                  ),
+                ),
+              ),
               // Positioned(
               //   top: 185,
               //   //right: 10,
@@ -437,6 +523,11 @@ class _SettingsViewState extends State<SettingsView> {
                   onChanged: (bool value) {
                     setState(() {
                       notificationsStudied = value;
+                      if (notificationsStudied == true) {
+                        //NotificationWord().startTimer();
+                      } else {
+                        //NotificationWord().stopTimer();
+                      }
                     });
                   },
                 ),
@@ -472,44 +563,49 @@ class _SettingsViewState extends State<SettingsView> {
                   value: notificationsFavorite,
                   onChanged: (bool value) {
                     setState(() {
-                      notificationsFavorite= value;
+                      notificationsFavorite = value;
+                      if (notificationsFavorite == true) {
+                        //NotificationWord().startTimer();
+                      } else {
+                        //NotificationWord().stopTimer();
+                      }
                     });
                   },
                 ),
               ),
-              Positioned(
-                top: 550,
-                //right: 10,
-                right: 130,
-                width: 140.0,
-                height: 70.0,
-                child: InkWell(
-                  onTap: () {
-                    //保存
-                  },
-                  child: Card(
-                    child: Text(''),
-                    color: Colors.green,
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 573,
-                //right: 10,
-                right: 143,
-                //width: 160.0,
-                //height: 260.0,
-                child: RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: '設定を保存する',
-                      style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255), fontSize: 16),
-                    ),
-                  ],
-                ),
-              ),
-              ),
+              // Positioned(
+              //   top: 550,
+              //   //right: 10,
+              //   right: 130,
+              //   width: 140.0,
+              //   height: 70.0,
+              //   child: InkWell(
+              //     onTap: () {
+              //       //保存
+              //     },
+              //     child: Card(
+              //       child: Text(''),
+              //       color: Colors.green,
+              //     ),
+              //   ),
+              // ),
+              // Positioned(
+              //   top: 573,
+              //   //right: 10,
+              //   right: 143,
+              //   //width: 160.0,
+              //   //height: 260.0,
+              //   child: RichText(
+              //   text: TextSpan(
+              //     children: [
+              //       TextSpan(
+              //         text: '設定を保存する',
+              //         style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255), fontSize: 16),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // ),
               // Column(
               //   children: [
               //     RichText(
