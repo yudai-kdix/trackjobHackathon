@@ -135,10 +135,10 @@ class _WordAnswerViewState extends State<WordAnswerView> {
               future: words,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  Word word;
+                  Word word = snapshot.data![0];
                   for (int i = 0; i < snapshot.data!.length; i++) {
                     if (snapshot.data![i].id == id) {
-                      word = snapshot.data![i];
+                      word = snapshot.data![i] ;
                     }
                   }
                   return ListView(

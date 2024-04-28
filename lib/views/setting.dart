@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide DatePickerTheme;
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:flutter/widgets.dart';
-//import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:trackjob2024/main.dart';
 
 class SettingsView extends StatefulWidget {
 
@@ -217,6 +218,12 @@ class _SettingsViewState extends State<SettingsView> {
                   onChanged: (bool value) {
                     setState(() {
                       notificationsEnabled = value;
+                      print(value);
+                      if (notificationsEnabled == false) {
+                        notificationWord.stopTimer();
+                      }else{
+                        notificationWord.startTimer();
+                      }
                     });
                   },
                 ),
@@ -378,33 +385,33 @@ class _SettingsViewState extends State<SettingsView> {
                 ),
               ),
               ),
-              // Positioned(
-              //   top: 185,
-              //   //right: 10,
-              //   left: 40,
-              //   //width: 160.0,
-              //   //height: 260.0,
-              //   child: TextButton(
-              //       onPressed: () {
-              //         DatePicker.showTimePicker(context,
-              //           showTitleActions: true,
-              //           showSecondsColumn: true,
-              //           onChanged: (date) {
-              //             print(date);
-              //           },
-              //           onConfirm: (date) {
-              //             print(date);
-              //           },
-              //           currentTime: DateTime.now(),
-              //           locale: LocaleType.jp
-              //         );
-              //       },
-              //       child: const Text(
-              //         '時間を選択',
-              //         style: TextStyle(color: Colors.blue),
-              //       ),
-              //   ),
-              // ),
+              Positioned(
+                top: 185,
+                //right: 10,
+                left: 40,
+                //width: 160.0,
+                //height: 260.0,
+                child: TextButton(
+                    onPressed: () {
+                      DatePicker.showTimePicker(context,
+                        showTitleActions: true,
+                        showSecondsColumn: true,
+                        onChanged: (date) {
+                          print(date);
+                        },
+                        onConfirm: (date) {
+                          print(date);
+                        },
+                        currentTime: DateTime.now(),
+                        locale: LocaleType.jp
+                      );
+                    },
+                    child: const Text(
+                      '時間を選択',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                ),
+              ),
               Positioned(
                 top: 425,
                 //right: 10,

@@ -9,11 +9,10 @@ class NotificationWord {
   static late Future<List<Word>> wordList;
   static final noti = notification_service();
   static late Timer timer;
-  static int startTime = 7; // 8時から
+  static int startTime = 7; // 7時から
   static int endTime = 20; // 20時まで
   static int notificationInterval = 1; // 一時間毎
-  // static bool flag = false;
-  static bool flag = true;
+  static bool flag = false;
   // TODO 初期をtrueにしているが、本来はfalseにしておく
 
   NotificationWord() {
@@ -50,7 +49,7 @@ class NotificationWord {
       print("単語が登録されていません");
     } else {
       int index = math.Random().nextInt(words.length);
-      noti.setNotification(words[index].term, index.toString());
+      noti.setNotification(words[index].term, words[index].id!.toString());
     }
   }
 
@@ -73,6 +72,13 @@ class NotificationWord {
   // 通知の時間を変更
   void changeTime(int start, int end) {
     startTime = start;
+    endTime = end;
+  }
+
+  void changeStartTime(int start) {
+    startTime = start;
+  }
+  void changeEndTime(int end) {
     endTime = end;
   }
 
