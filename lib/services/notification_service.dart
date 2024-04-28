@@ -8,6 +8,7 @@ import 'package:trackjob2024/views/word_answer_view.dart';
 class notification_service {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
+  
   // late Timer timer;
   // 通知の時間設定
   // int startTime = 8; // 8時から
@@ -22,6 +23,7 @@ class notification_service {
   }
   // 通知の初期設定
   void _initializeNotifications() async {
+    AndroidInitializationSettings androidInitialize = const AndroidInitializationSettings('app_icon');
     DarwinInitializationSettings initializationSettingsIOS =
         const DarwinInitializationSettings(
       requestSoundPermission: true,
@@ -30,6 +32,7 @@ class notification_service {
     );
     final InitializationSettings initializationSettings =
         InitializationSettings(
+      android: androidInitialize,
       iOS: initializationSettingsIOS,
     );
     await flutterLocalNotificationsPlugin.initialize(
@@ -40,6 +43,13 @@ class notification_service {
 
   // 引数で受け取ったbodyを通知する
   void setNotification(body, payload) async {
+    var androidDetails = AndroidNotificationDetails(
+      'channel_id',
+      'channel_name',
+      importance: Importance.max,
+      priority: Priority.high,
+      playSound: true,
+    );
     const DarwinNotificationDetails iOSPlatformChannelSpecifics =
         DarwinNotificationDetails(
             // sound: 'example.mp3',
@@ -47,7 +57,9 @@ class notification_service {
             presentBadge: true,
             presentSound: true);
     NotificationDetails platformChannelSpecifics =
-        const NotificationDetails(iOS: iOSPlatformChannelSpecifics);
+        NotificationDetails(
+            android: androidDetails,
+          iOS: iOSPlatformChannelSpecifics);
     await Future.delayed(const Duration(seconds: 10));
     await flutterLocalNotificationsPlugin
         .show(0, '単語暗記アプリ', body, platformChannelSpecifics, payload: payload);

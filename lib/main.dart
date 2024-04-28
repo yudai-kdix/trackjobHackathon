@@ -13,7 +13,7 @@ import 'package:trackjob2024/views/word_detail_view.dart';
 import 'models/word.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
+NotificationWord notificationWord = NotificationWord();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
@@ -21,7 +21,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
-  NotificationWord notificationWord = NotificationWord();
+  
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         '/word_list': (context) => QuestionListView(), // 単語一覧画面
         '/word_add': (context) => const AddWordScreen(), // 単語追加画面
         // '/word_answer': (context) => WordAnswerView(), // 単語回答画面
-        '/test': (context) => const TestView(),
+        // '/test': (context) => const TestView(),
         // 'word_detail': (context) => WordDetailView(), // 単語詳細画面
       },
       onGenerateRoute: (settings) {
