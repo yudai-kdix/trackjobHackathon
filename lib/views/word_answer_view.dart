@@ -162,32 +162,32 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                                       children: [
                                         IconButton(
                                           icon: Icon(
-                                            snapshot.data![id].judge1
+                                            word.judge1
                                                 ? Icons.check_box_outlined
                                                 : Icons.check_box_rounded,
                                           ),
                                           onPressed: () {
                                             setState(() {
-                                              snapshot.data![id].judge1 =
-                                                  !snapshot.data![id].judge1;
+                                              word.judge1 =
+                                                  !word.judge1;
                                               DatabaseHelper().updateData(
-                                                  'word', snapshot.data![id]);
+                                                  'word', word);
                                             });
                                           },
                                         ),
                                         IconButton(
                                           icon: Icon(
-                                            snapshot.data![id].judge2
+                                            word.judge2
                                                 ? Icons
                                                     .bookmark_outline_outlined
                                                 : Icons.bookmark_outlined,
                                           ),
                                           onPressed: () {
                                             setState(() {
-                                              snapshot.data![id].judge2 =
-                                                  !snapshot.data![id].judge2;
+                                              word.judge2 =
+                                                  !word.judge2;
                                               DatabaseHelper().updateData(
-                                                  'word', snapshot.data![id]);
+                                                  'word', word);
                                             });
                                           },
                                         ),
@@ -212,10 +212,10 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                                   child: ansORques
                                       ? Text(
                                           style: TextStyle(fontSize: 50),
-                                          snapshot.data![id].term)
+                                          word.term)
                                       : Text(
                                           style: TextStyle(fontSize: 50),
-                                          snapshot.data![id].definition),
+                                          word.definition),
                                 ),
                               ],
                             ),
@@ -291,14 +291,14 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   for (int i = 0;
-                                      i < snapshot.data![id].tags.length;
+                                      i < word.tags.length;
                                       i++) ...{
                                     Text('#'),
-                                    Text(snapshot.data![id].tags[i]),
-                                    (i < snapshot.data![id].tags.length - 1)
+                                    Text(word.tags[i]),
+                                    (i < word.tags.length - 1)
                                         ? Text(',')
                                         : Text(''),
-                                    (i < snapshot.data![id].tags.length - 1)
+                                    (i < word.tags.length - 1)
                                         ? Text('    ')
                                         : Text(''),
                                   },
