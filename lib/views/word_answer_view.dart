@@ -57,6 +57,7 @@ class _WordAnswerViewState extends State<WordAnswerView> {
     }
     int nex_id = id_box[nex_index_num];
     int pre_id = id_box[pre_index_num];
+    bool flag_make_sense = true;
 
     return Scaffold(
       appBar: AppBar(
@@ -226,40 +227,145 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                         height: 50,
                         width: double.infinity, //横幅いっぱいを意味する
                         color:
-                            Color.fromARGB(255, 95, 160, 231), //広がっているか色をつけて確認
-                        child: ListTile(
-                          trailing: Wrap(
-                            spacing: 0, // アイコンの間の幅を調整
-                            children: [
-                              IconButton(
-                                icon: Icon(
-                                  correct_tag
-                                      ? Icons.check_box_rounded
-                                      : Icons.check_box_outlined,
+                            Color.fromARGB(255, 95, 160, 231),
+                            child: Stack(
+                              children: [
+                                SizedBox(
+                                  height: 700,
+                                  width: double.infinity,
+                                  child: Container(
+                                    child: Text(''),
+                                    color: Color.fromARGB(255, 95, 160, 231),
+                                  ),
                                 ),
-                                color: Colors.white,
-                                onPressed: () {
-                                  setState(() {
-                                    correct_tag = !correct_tag;
-                                  });
-                                },
-                              ),
-                              IconButton(
-                                icon: Icon(
-                                  irrcorrect_tag
-                                      ? Icons.bookmark_outlined
-                                      : Icons.bookmark_outline_outlined,
+                                Positioned(
+                                  top: 1,
+                                  right: 250,
+                                  // width: 160.0,
+                                  // height: 260.0,
+                                  child: Text('わかる'),
                                 ),
-                                color: Colors.white,
-                                onPressed: () {
-                                  setState(() {
-                                    irrcorrect_tag = !irrcorrect_tag;
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
+                                Positioned(
+                                  top: 8,
+                                  right: 246,
+                                  // width: 160.0,
+                                  // height: 260.0,
+                                  child: ((flag_make_sense == true) || correct_tag == true) ? IconButton(
+                                    icon: Icon(
+                                      correct_tag
+                                          ? Icons.check_circle_outline
+                                          : Icons.check_circle,
+                                    ),
+                                    color: Colors.white,
+                                    onPressed: () {
+                                      setState(() {
+                                        correct_tag = !correct_tag;
+                                        flag_make_sense = false;
+                                      });
+                                    },
+                                  ):IconButton(
+                                    icon: Icon(
+                                      correct_tag
+                                          ? Icons.check_circle_outline
+                                          : Icons.check_circle,
+                                    ),
+                                    color: Color.fromARGB(255, 107, 171, 240),
+                                    onPressed: () {
+                                      setState(() {
+                                        //correct_tag = !correct_tag;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 1,
+                                  right: 90,
+                                  // width: 160.0,
+                                  // height: 260.0,
+                                  child: Text('わからない'),
+                                ),
+                                Positioned(
+                                  top: 8,
+                                  right: 100,
+                                  // width: 160.0,
+                                  // height: 260.0,
+                                  child: ((flag_make_sense == true) || irrcorrect_tag == true) ? IconButton(
+                                    icon: Icon(
+                                      irrcorrect_tag
+                                      ? Icons.announcement_outlined
+                                      : Icons.announcement,
+                                    ),
+                                    color: Colors.white,
+                                    onPressed: () {
+                                      setState(() {
+                                        irrcorrect_tag = !irrcorrect_tag;
+                                        flag_make_sense = false;
+                                      });
+                                    },
+                                  ):IconButton(
+                                    icon: Icon(
+                                      irrcorrect_tag
+                                      ? Icons.announcement_outlined
+                                      : Icons.announcement,
+                                    ),
+                                    color: Color.fromARGB(255, 107, 171, 240),
+                                    onPressed: () {
+                                      setState(() {
+                                        //irrcorrect_tag = !irrcorrect_tag;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ], //広がっているか色をつけて確認
+                        // child: ListTile(
+                        //   trailing: Wrap(
+                        //     spacing: 30, // アイコンの間の幅を調整
+                        //     children: [
+                        //       IconButton(
+                        //         icon: Icon(
+                        //           correct_tag
+                        //               ? Icons.check_circle_outline
+                        //               : Icons.check_circle,
+                        //         ),
+                        //         color: Colors.white,
+                        //         onPressed: () {
+                        //           setState(() {
+                        //             correct_tag = !correct_tag;
+                        //           });
+                        //         },
+                        //       ),
+                        //       SizedBox(
+                        //         height: 40,
+                        //       child: RichText(
+                        //         text: TextSpan(
+                        //           children: [
+                        //             TextSpan(
+                        //               text: 'わかる',
+                        //               style: TextStyle(color: Colors.black, fontSize: 20),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //       ),
+                        //       IconButton(
+                        //         icon: Icon(
+                        //           irrcorrect_tag
+                        //               ? Icons.announcement_outlined
+                        //               : Icons.announcement,
+                        //         ),
+                        //         color: Colors.white,
+                        //         onPressed: () {
+                        //           setState(() {
+                        //             irrcorrect_tag = !irrcorrect_tag;
+                        //           });
+                        //         },
+                        //       ),
+                        //       Text('わからない'),
+                        //       SizedBox(width: 80,),
+                        //     ],
+                        //   ),
+                        // ),
+                            ),
                       ),
                       SizedBox(
                         height: 120,
