@@ -138,6 +138,7 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                   Word word = snapshot.data![0];
                   for (int i = 0; i < snapshot.data!.length; i++) {
                     if (snapshot.data![i].id == id) {
+                      id = i;
                       word = snapshot.data![i] ;
                     }
                   }
@@ -162,32 +163,32 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                                       children: [
                                         IconButton(
                                           icon: Icon(
-                                            snapshot.data![id].judge1
+                                            word.judge1
                                                 ? Icons.check_box_outlined
                                                 : Icons.check_box_rounded,
                                           ),
                                           onPressed: () {
                                             setState(() {
-                                              snapshot.data![id].judge1 =
+                                              word.judge1 =
                                                   !snapshot.data![id].judge1;
                                               DatabaseHelper().updateData(
-                                                  'word', snapshot.data![id]);
+                                                  'word', word);
                                             });
                                           },
                                         ),
                                         IconButton(
                                           icon: Icon(
-                                            snapshot.data![id].judge2
+                                            word.judge2
                                                 ? Icons
                                                     .bookmark_outline_outlined
                                                 : Icons.bookmark_outlined,
                                           ),
                                           onPressed: () {
                                             setState(() {
-                                              snapshot.data![id].judge2 =
+                                              word.judge2 =
                                                   !snapshot.data![id].judge2;
                                               DatabaseHelper().updateData(
-                                                  'word', snapshot.data![id]);
+                                                  'word', word);
                                             });
                                           },
                                         ),

@@ -214,8 +214,8 @@ class _QuestionListViewState extends State<QuestionListView> {
                                 color: Color.fromARGB(255, 227, 239, 247),
                                 child: ListTile(
                                   title: Text(snapshot.data![index].term),
-                                  subtitle:
-                                      Text(snapshot.data![index].definition),
+                                  // subtitle:
+                                  //     Text(snapshot.data![index].definition),
                                   trailing: Wrap(
                                     spacing: 8, // アイコンの間の幅を調整
                                     children: [

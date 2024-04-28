@@ -45,6 +45,8 @@ class DatabaseHelper {
             tags TEXT,
             judge1 INTEGER NOT NULL,
             judge2 INTEGER NOT NULL,
+            countTrue INTEGER NOT NULL,
+            countFalse INTEGER NOT NULL,
             isMemorized INTEGER NOT NULL
           )
           ''');
@@ -106,6 +108,8 @@ class DatabaseHelper {
             'tags',
             'judge1',
             'judge2',
+            'countTrue',
+            'countFalse',
             'isMemorized'
           ],
           where: 'id = ?',
@@ -145,7 +149,7 @@ class DatabaseHelper {
     Database db = await _database!;
     if (table == 'word') {
       // return await db.delete(wordTable, where: 'id = ?', whereArgs: [id]);
-      print(id.toString() +"  hello is deleted");
+      print(id.toString() + "  hello is deleted");
       return await db.delete(wordTable, where: 'id = ?', whereArgs: [id]);
     } else if (table == 'tag') {
       return await db.delete(tagTable, where: 'id = ?', whereArgs: [id]);
@@ -172,5 +176,26 @@ class DatabaseHelper {
       }
     }
     return [];
+  }
+
+  int getCountTrue(String table){
+    var words = queryAllData(table).then((list) => list.cast<Word>());
+    int count = 0;
+    words.then((value) {
+      for (var word in value) {
+       count += word.countTrue;
+      }
+    });
+    return count;
+  }
+  int getCountFalse(String table){
+    var words = queryAllData(table).then((list) => list.cast<Word>());
+    int count = 0;
+    words.then((value) {
+      for (var word in value) {
+        count += word.countFalse;
+      }
+    });
+    return count;
   }
 }
