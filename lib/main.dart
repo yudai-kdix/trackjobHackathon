@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trackjob2024/components/hamburger_menu.dart';
 import 'package:trackjob2024/models/tags.dart';
 import 'package:trackjob2024/services/circle_graph.dart';
 import 'package:trackjob2024/services/database_helper.dart';
@@ -14,6 +15,7 @@ import 'models/word.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 NotificationWord notificationWord = NotificationWord();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
@@ -76,8 +78,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    int wordTrue =DatabaseHelper().getCountFalse('word');
-    int wordFalse =DatabaseHelper().getCountTrue('word');
+    int wordFalse =DatabaseHelper().getCountFalse('word');
+    int wordTrue =DatabaseHelper().getCountTrue('word');
+    print("不正回数"+ wordFalse.toString());
+    
     double answerRate;
     if (wordFalse + wordTrue == 0) {
       answerRate = 0;
@@ -96,55 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      endDrawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            SizedBox(
-              height: 80,
-              child: DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                ),
-                child: Text(
-                  'メニュー',
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.home_outlined),
-              title: Text('ホーム'),
-              onTap: () {
-                Navigator.pushNamed(context, '/');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.content_copy_rounded),
-              title: Text('単語一覧'),
-              onTap: () {
-                Navigator.pushNamed(context, '/word_list');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.add_circle_outline),
-              title: Text('単語の追加'),
-              onTap: () {
-                Navigator.pushNamed(context, '/word_add');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.settings_outlined),
-              title: Text('設定'),
-              onTap: () {
-                Navigator.pushNamed(context, '/settings');
-              },
-            ),
-          ],
-        ),
-      ),
+      endDrawer: const HamburgerMenu(),
       body: ListView(
         children: [
           Stack(
@@ -215,7 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   right: 170,
                   //width: 200.0,
                   //height: 200.0,
-                  child: CircleGraph(answerRate)),
+                  child: CircleGraph(0.5)),
               Positioned(
                 top: 60,
                 right: -42,
@@ -225,7 +181,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: '正解数: $wordTrue',
+                        text: '正解数: 4',
                         style: TextStyle(color: Colors.black, fontSize: 13),
                       ),
                     ],
@@ -256,7 +212,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: '不正解数： $wordFalse',
+                        text: '不正解数： 2',
                         style: TextStyle(color: Colors.black, fontSize: 13),
                       ),
                     ],
@@ -287,7 +243,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: '未回答： ',
+                        text: '未回答： 0',
                         style: TextStyle(color: Colors.black, fontSize: 13),
                       ),
                     ],
@@ -318,7 +274,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: '正答率： $answerRate',
+                        text: '正答率： 50',
                         style: TextStyle(color: Colors.black, fontSize: 13),
                       ),
                     ],

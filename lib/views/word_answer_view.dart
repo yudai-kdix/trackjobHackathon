@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trackjob2024/components/hamburger_menu.dart';
 import 'package:trackjob2024/models/word.dart';
 import 'package:trackjob2024/services/database_helper.dart';
 
@@ -16,13 +17,6 @@ class WordAnswerView extends StatefulWidget {
 }
 
 class _WordAnswerViewState extends State<WordAnswerView> {
-  // final List<Word> words = [
-  //   Word(term: 'Example', definition: 'これは例です', tags: ['Tag1', 'Tag2'], judge1: true, judge2: true),
-  //   Word(term: 'Example2', definition: 'これは例です', tags: ['Tag3', 'Tag2'], judge1: true, judge2: true),
-  //   Word(term: 'Example3', definition: 'これは例です', tags: ['Tag1', 'Tag3'], judge1: true, judge2: true),
-  //   Word(term: 'Example4', definition: 'これは例です', tags: ['Tag1', 'Tag4'], judge1: true, judge2: true),
-  //   // 他の単語データ
-  // ];
   final Future<List<Word>> words =
       DatabaseHelper().queryAllData('word').then((list) => list.cast<Word>());
   late List<int> id_box;
@@ -80,55 +74,7 @@ class _WordAnswerViewState extends State<WordAnswerView> {
           ),
         ),
       ),
-      endDrawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            SizedBox(
-              height: 80,
-              child: DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                ),
-                child: Text(
-                  'メニュー',
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.home_outlined),
-              title: Text('ホーム'),
-              onTap: () {
-                Navigator.pushNamed(context, '/');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.content_copy_rounded),
-              title: Text('単語一覧'),
-              onTap: () {
-                Navigator.pushNamed(context, '/word_list');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.add_circle_outline),
-              title: Text('単語の追加'),
-              onTap: () {
-                Navigator.pushNamed(context, '/word_add');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.settings_outlined),
-              title: Text('設定'),
-              onTap: () {
-                Navigator.pushNamed(context, '/settings');
-              },
-            ),
-          ],
-        ),
-      ),
+      endDrawer: const HamburgerMenu(),
       body: Stack(
         children: [
           Flexible(
@@ -263,6 +209,9 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                                       setState(() {
                                         correct_tag = !correct_tag;
                                         flag_make_sense = false;
+                                        word.countTrue += 1;
+                                        DatabaseHelper().updateData(
+                                            'word', word);
                                       });
                                     },
                                   ):IconButton(
@@ -302,6 +251,10 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                                       setState(() {
                                         irrcorrect_tag = !irrcorrect_tag;
                                         flag_make_sense = false;
+                                        word.countFalse += 1;
+                                        print(word.countFalse);
+                                        DatabaseHelper()
+                                              .updateData('word', word);
                                       });
                                     },
                                   ):IconButton(

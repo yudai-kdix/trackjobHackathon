@@ -133,6 +133,7 @@ class DatabaseHelper {
   Future<int> updateData(String table, Object data) async {
     Database db = await _database!;
     if (table == 'word') {
+      print("update");
       data = data as Word;
       return await db.update(wordTable, data.toMap(),
           where: 'id = ?', whereArgs: [data.id]);
@@ -178,24 +179,32 @@ class DatabaseHelper {
     return [];
   }
 
-  int getCountTrue(String table){
-    var words = queryAllData(table).then((list) => list.cast<Word>());
+  int getCountTrue(String table) {
+    // var words = queryAllData(table).then((list) => list.cast<Word>());
     int count = 0;
-    words.then((value) {
-      for (var word in value) {
-       count += word.countTrue;
-      }
-    });
+    // words.then((value) {
+    //   for (var word in value) {
+    //     print("counttrue"+word.countTrue.toString());
+
+    //     print("true");
+    //     count += word.countTrue;
+    //     print("count"+count.toString());
+    //   }
+    //   return count;
+    // });
     return count;
   }
-  int getCountFalse(String table){
-    var words = queryAllData(table).then((list) => list.cast<Word>());
+
+  int getCountFalse(String table) {
+    // var words = queryAllData(table).then((list) => list.cast<Word>());
     int count = 0;
-    words.then((value) {
-      for (var word in value) {
-        count += word.countFalse;
-      }
-    });
+    // words.then((value) {
+    //   for (var word in value) {
+    //     count += word.countFalse;
+    //   }
+    //   return count;
+    // });
+
     return count;
   }
 }
