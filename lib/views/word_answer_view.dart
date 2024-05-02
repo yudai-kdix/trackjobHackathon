@@ -146,7 +146,7 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                                           onPressed: () {
                                             //onpress action
                                             //onTap: () =>
-                                            //Navigator.pushNamed(context, '/detail', arguments: word),
+                                            //Navigator.pushNamed(contextk, '/detail', arguments: word),
                                           },
                                         ),
                                       ],

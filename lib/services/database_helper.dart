@@ -179,32 +179,57 @@ class DatabaseHelper {
     return [];
   }
 
-  int getCountTrue(String table) {
-    // var words = queryAllData(table).then((list) => list.cast<Word>());
-    int count = 0;
-    // words.then((value) {
-    //   for (var word in value) {
-    //     print("counttrue"+word.countTrue.toString());
+  // int getCountTrue(String table) {
+  //   var words = queryAllData(table).then((list) => list.cast<Word>());
+  //   int count = 0;
+  //   words.then((value) {
+  //     for (var word in value) {
+  //       print("counttrue"+word.countTrue.toString());
 
-    //     print("true");
-    //     count += word.countTrue;
-    //     print("count"+count.toString());
-    //   }
-    //   return count;
-    // });
+  //       print("true");
+  //       count += word.countTrue;
+  //       print("count"+count.toString());
+  //     }
+  //     return count;
+  //   });
+  //   return count;
+  // }
+  Future<int> getCountTrue(String table) async {
+    List<Object> list = await queryAllData(table);
+    List<Word> words = list.cast<Word>();
+    int count = 0;
+    for (var word in words) {
+      // print("counttrue" + word.countTrue.toString());
+      // print("true");
+      count += word.countTrue;
+      // print("count" + count.toString());
+    }
     return count;
   }
 
-  int getCountFalse(String table) {
-    // var words = queryAllData(table).then((list) => list.cast<Word>());
-    int count = 0;
-    // words.then((value) {
-    //   for (var word in value) {
-    //     count += word.countFalse;
-    //   }
-    //   return count;
-    // });
 
+  Future<int> getCountFalse(String table) async {
+    var list = await queryAllData(table);
+    List<Word> words = list.cast<Word>();
+    int count = 0;
+    for (Word word in words){
+      count += word.countFalse;
+    }
     return count;
+  }
+
+  Future<double> getAnsRate(String table) async {
+    var list = await queryAllData(table);
+    List<Word> words = list.cast<Word>();
+    int countTrue = 0;
+    int countFalse = 0;
+    for (Word word in words){
+      countTrue += word.countTrue;
+      countFalse += word.countFalse;
+    }
+    if (countTrue + countFalse == 0){
+      return 0;
+    }
+    return (countTrue / (countTrue + countFalse));
   }
 }

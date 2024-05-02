@@ -37,11 +37,11 @@ class _QuestionListViewState extends State<QuestionListView> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_outlined),
+          icon: const Icon(Icons.arrow_back_outlined),
           onPressed: () => Navigator.pushNamed(context, '/'),
         ),
         title: RichText(
-          text: TextSpan(
+          text: const TextSpan(
             children: [
               WidgetSpan(
                 child: Icon(Icons.content_copy_rounded),
@@ -56,6 +56,10 @@ class _QuestionListViewState extends State<QuestionListView> {
         ),
       ),
       endDrawer: const HamburgerMenu(),
+
+
+
+
       body: Column(
         children: <Widget>[
           Container(
@@ -66,7 +70,7 @@ class _QuestionListViewState extends State<QuestionListView> {
               leading: Container(
                 width: 250,
                 height: 35,
-                margin: const EdgeInsets.only(bottom: 5),
+                margin: const EdgeInsets.only(bottom: 5), //下部に余白を追加
                 child: TextFormField(
                   onChanged: (value) {
                     text = value;
