@@ -9,7 +9,7 @@ import 'package:trackjob2024/views/question_list_view.dart';
 import 'package:trackjob2024/views/setting.dart';
 // import 'package:trackjob2024/views/settings_view.dart';
 import 'package:trackjob2024/views/word_detail_view.dart';
-
+import 'package:trackjob2024/views/word_answer_view.dart';
 import 'models/word.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -71,8 +71,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final Future<List<Word>> words =
       DatabaseHelper().queryAllData('word').then((list) => list.cast<Word>());
-  final Future<List<Tags>> tags =
-      DatabaseHelper().queryAllData('tag').then((list) => list.cast<Tags>());
+  // final Future<List<Tags>> tags =
+  //     DatabaseHelper().queryAllData('tag').then((list) => list.cast<Tags>());
 
   @override
   Widget build(BuildContext context) {
@@ -377,14 +377,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: LimitedBox(
                   maxWidth: 320,
                   maxHeight: 160,
-                  child: FutureBuilder<List<Tags>>(
-                    future: tags,
+                  child: FutureBuilder<List<Word>>(
+                    future: words,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        // List<int> id_box = [];
-                        // for (int i = 0; i < snapshot.data!.length; i++) {
-                        //   id_box.add(i);
-                        // }
+                        List<int> id_box = [];
+                        for (int i = 0; i < snapshot.data!.length; i++) {
+                          id_box.add(i);
+                        }
                         return ListView.builder(
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
@@ -392,21 +392,32 @@ class _MyHomePageState extends State<MyHomePage> {
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
                             return InkWell(
-                              // onTap: () {
-                              //   Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: id_box, checkid: index,)));
-                              // },
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: id_box, checkid: index,)));
+                              },
                               child: Card(
                                 child: SizedBox(
                                   width: 150,
                                   child: Center(
                                     child: Column(
                                       children: [
-                                        const SizedBox(
-                                          height: 50,
+                                        SizedBox(
+                                          height: 60,
                                         ),
-                                        Text('${snapshot.data![index].name}'),
-                                        Text(
-                                            '${snapshot.data![index].countTrue}'),
+                                        //Text('${snapshot.data![index].term}'),
+                                        RichText(
+                                          text: TextSpan(
+                                            children: [
+                                              TextSpan(text: ' '),
+                                              TextSpan(
+                                                text: '${snapshot.data![index].term}',
+                                                style: TextStyle(color: Colors.black, fontSize: 22),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        // Text(
+                                        //     '${snapshot.data![index].countTrue}'),
                                       ],
                                     ),
                                   ),
