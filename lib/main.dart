@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:trackjob2024/components/hamburger_menu.dart';
 import 'package:trackjob2024/models/tags.dart';
 import 'package:trackjob2024/services/circle_graph.dart';
 import 'package:trackjob2024/services/database_helper.dart';
 import 'package:trackjob2024/services/notification_word.dart';
-import 'package:trackjob2024/test.dart';
 import 'package:trackjob2024/views/add_word_view.dart';
 import 'package:trackjob2024/views/question_list_view.dart';
 import 'package:trackjob2024/views/setting.dart';
@@ -14,6 +14,7 @@ import 'models/word.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 NotificationWord notificationWord = NotificationWord();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
@@ -21,7 +22,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
-  
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         // ここでテーマを設定
         colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 88, 154, 225)),
+            ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 88, 154, 225)),
       ),
       routes: {
         //ここで定義したものは他で Navigator.pushNamed(context, '/ルート名');で画面が遷移するはず
@@ -76,15 +76,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    int wordTrue =DatabaseHelper().getCountFalse('word');
-    int wordFalse =DatabaseHelper().getCountTrue('word');
-    double answerRate;
-    if (wordFalse + wordTrue == 0) {
-      answerRate = 0;
-    }else{
-      answerRate = wordTrue / (wordFalse + wordTrue);
-    }
-    
+    // int wordFalse =DatabaseHelper().getCountFalse('word');
+    // int wordTrue =DatabaseHelper().getCountTrue('word');
+    // print("不正回数"+ wordFalse.toString());
+
+    // double answerRate;
+    // if (wordFalse + wordTrue == 0) {
+    //   answerRate = 0;
+    // }else{
+    //   answerRate = wordTrue / (wordFalse + wordTrue);
+    // }
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -96,60 +98,12 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      endDrawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            SizedBox(
-              height: 80,
-              child: DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                ),
-                child: Text(
-                  'メニュー',
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.home_outlined),
-              title: Text('ホーム'),
-              onTap: () {
-                Navigator.pushNamed(context, '/');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.content_copy_rounded),
-              title: Text('単語一覧'),
-              onTap: () {
-                Navigator.pushNamed(context, '/word_list');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.add_circle_outline),
-              title: Text('単語の追加'),
-              onTap: () {
-                Navigator.pushNamed(context, '/word_add');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.settings_outlined),
-              title: Text('設定'),
-              onTap: () {
-                Navigator.pushNamed(context, '/settings');
-              },
-            ),
-          ],
-        ),
-      ),
+      endDrawer: const HamburgerMenu(),
       body: ListView(
         children: [
           Stack(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 700,
                 width: 1000,
                 child: Card(
@@ -185,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       //ansORques = !ansORques;
                     });
                   },
-                  child: Card(
+                  child: const Card(
                     color: Color.fromARGB(255, 227, 239, 247),
                     child: Text(''),
                   ),
@@ -197,7 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 width: 160.0,
                 height: 260.0,
                 child: RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     children: [
                       TextSpan(text: '   '),
                       TextSpan(
@@ -215,21 +169,54 @@ class _MyHomePageState extends State<MyHomePage> {
                   right: 170,
                   //width: 200.0,
                   //height: 200.0,
-                  child: CircleGraph(answerRate)),
+                  child: FutureBuilder<double>(
+                    future: DatabaseHelper().getAnsRate('word'),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        // データをロード中の場合の表示
+                        return const Text('Loading...');
+                      } else if (snapshot.hasError) {
+                        // エラーが発生した場合の表示
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        // データが正常にロードされた場合の表示
+                        return CircleGraph(
+                          double.parse(snapshot.data!.toStringAsFixed(2))
+                          ,
+                        );
+                      }
+                    },
+                  )
+                ),
               Positioned(
                 top: 60,
                 right: -42,
                 width: 160.0,
                 height: 260.0,
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: '正解数: $wordTrue',
-                        style: TextStyle(color: Colors.black, fontSize: 13),
-                      ),
-                    ],
-                  ),
+                child: FutureBuilder<int>(
+                  future: DatabaseHelper().getCountTrue('word'),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      // データをロード中の場合の表示
+                      return const Text('Loading...');
+                    } else if (snapshot.hasError) {
+                      // エラーが発生した場合の表示
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      // データが正常にロードされた場合の表示
+                      return RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: '正解数: ${snapshot.data}', // 非同期で取得した値を表示
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 13),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  },
                 ),
               ),
               Positioned(
@@ -238,7 +225,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 width: 160.0,
                 height: 260.0,
                 child: RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     children: [
                       WidgetSpan(
                         child: Icon(Icons.check_circle_outline),
@@ -252,15 +239,30 @@ class _MyHomePageState extends State<MyHomePage> {
                 right: -42,
                 width: 160.0,
                 height: 260.0,
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: '不正解数： $wordFalse',
-                        style: TextStyle(color: Colors.black, fontSize: 13),
-                      ),
-                    ],
-                  ),
+                child: FutureBuilder<int>(
+                  future: DatabaseHelper().getCountFalse('word'),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      // データをロード中の場合の表示
+                      return const Text('Loading...');
+                    } else if (snapshot.hasError) {
+                      // エラーが発生した場合の表示
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      // データが正常にロードされた場合の表示
+                      return RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: '不正解数: ${snapshot.data}', // 非同期で取得した値を表示
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 13),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  },
                 ),
               ),
               Positioned(
@@ -269,7 +271,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 width: 160.0,
                 height: 260.0,
                 child: RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     children: [
                       WidgetSpan(
                         child: Icon(Icons.announcement_outlined),
@@ -284,10 +286,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 width: 160.0,
                 height: 260.0,
                 child: RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     children: [
-                      TextSpan(
-                        text: '未回答： ',
+                      TextSpan( 
+                        text: '未回答： 0', //TODO ここなんとかする
                         style: TextStyle(color: Colors.black, fontSize: 13),
                       ),
                     ],
@@ -300,7 +302,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 width: 160.0,
                 height: 260.0,
                 child: RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     children: [
                       WidgetSpan(
                         child: Icon(Icons.question_mark_rounded),
@@ -314,15 +316,31 @@ class _MyHomePageState extends State<MyHomePage> {
                 right: -32,
                 width: 160.0,
                 height: 260.0,
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: '正答率： $answerRate',
-                        style: TextStyle(color: Colors.black, fontSize: 13),
-                      ),
-                    ],
-                  ),
+                child: FutureBuilder<double>(
+                  future: DatabaseHelper().getAnsRate('word'),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      // データをロード中の場合の表示
+                      return const Text('Loading...');
+                    } else if (snapshot.hasError) {
+                      // エラーが発生した場合の表示
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      // データが正常にロードされた場合の表示
+                      return RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text:
+                                  '正解率: ${(snapshot.data!*100).floor()}', // 非同期で取得した値を表示
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 13),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  },
                 ),
               ),
               Positioned(
@@ -331,17 +349,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 width: 160.0,
                 height: 260.0,
                 child: RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                     children: [
                       TextSpan(
-                        text: "    %",
+                        text: "%",
                         style: TextStyle(color: Colors.black, fontSize: 13),
                       ),
                     ],
                   ),
                 ),
               ),
-              Positioned(
+              const Positioned(
                 top: 310,
                 left: 20,
                 right: 20,
@@ -378,7 +396,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => WordAnswerView(checkList: id_box, checkid: index,)));
                               },
                               child: Card(
-                                child: Container(
+                                child: SizedBox(
                                   width: 150,
                                   child: Center(
                                     child: Column(
@@ -429,11 +447,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       Navigator.pushNamed(context, '/word_list');
                     });
                   },
-                  child: Card(
+                  child: const Card(
                     color: Color.fromARGB(255, 124, 175, 237),
                     child: Icon(
                       Icons.content_copy_rounded,
-                      color: const Color.fromARGB(255, 255, 255, 255),
+                      color: Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
                 ),
@@ -449,11 +467,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       Navigator.pushNamed(context, '/settings');
                     });
                   },
-                  child: Card(
+                  child: const Card(
                     color: Color.fromARGB(255, 152, 152, 152),
                     child: Icon(
                       Icons.settings_outlined,
-                      color: const Color.fromARGB(255, 255, 255, 255),
+                      color: Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
                 ),
@@ -469,7 +487,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       Navigator.pushNamed(context, '/word_add');
                     });
                   },
-                  child: Card(
+                  child: const Card(
                     color: Color.fromARGB(255, 117, 214, 141),
                     child: Icon(Icons.add_circle_outline, color: Colors.white),
                   ),

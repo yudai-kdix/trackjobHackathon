@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trackjob2024/components/hamburger_menu.dart';
 import 'package:trackjob2024/models/word.dart';
 import 'package:trackjob2024/services/database_helper.dart';
 import 'package:trackjob2024/views/word_answer_view.dart';
@@ -36,11 +37,11 @@ class _QuestionListViewState extends State<QuestionListView> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_outlined),
+          icon: const Icon(Icons.arrow_back_outlined),
           onPressed: () => Navigator.pushNamed(context, '/'),
         ),
         title: RichText(
-          text: TextSpan(
+          text: const TextSpan(
             children: [
               WidgetSpan(
                 child: Icon(Icons.content_copy_rounded),
@@ -54,55 +55,11 @@ class _QuestionListViewState extends State<QuestionListView> {
           ),
         ),
       ),
-      endDrawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            SizedBox(
-              height: 80,
-              child: DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                ),
-                child: Text(
-                  'メニュー',
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.home_outlined),
-              title: Text('ホーム'),
-              onTap: () {
-                Navigator.pushNamed(context, '/');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.content_copy_rounded),
-              title: Text('単語一覧'),
-              onTap: () {
-                Navigator.pushNamed(context, '/word_list');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.add_circle_outline),
-              title: Text('単語の追加'),
-              onTap: () {
-                Navigator.pushNamed(context, '/word_add');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.settings_outlined),
-              title: Text('設定'),
-              onTap: () {
-                Navigator.pushNamed(context, '/settings');
-              },
-            ),
-          ],
-        ),
-      ),
+      endDrawer: const HamburgerMenu(),
+
+
+
+
       body: Column(
         children: <Widget>[
           Container(
@@ -113,7 +70,7 @@ class _QuestionListViewState extends State<QuestionListView> {
               leading: Container(
                 width: 250,
                 height: 35,
-                margin: const EdgeInsets.only(bottom: 5),
+                margin: const EdgeInsets.only(bottom: 5), //下部に余白を追加
                 child: TextFormField(
                   onChanged: (value) {
                     text = value;

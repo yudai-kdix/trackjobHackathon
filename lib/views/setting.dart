@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart' hide DatePickerTheme;
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:flutter/widgets.dart';
+import 'package:trackjob2024/components/hamburger_menu.dart';
 import 'package:trackjob2024/main.dart';
 
 class SettingsView extends StatefulWidget {
@@ -46,55 +47,7 @@ class _SettingsViewState extends State<SettingsView> {
 
         ),
       ),
-      endDrawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            SizedBox(
-              height: 80,
-              child: DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                ),
-                child: Text(
-                  'メニュー',
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.home_outlined),
-              title: Text('ホーム'),
-              onTap: () {
-                Navigator.pushNamed(context, '/');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.content_copy_rounded),
-              title: Text('単語一覧'),
-              onTap: () {
-                Navigator.pushNamed(context, '/word_list');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.add_circle_outline),
-              title: Text('単語の追加'),
-              onTap: () {
-                Navigator.pushNamed(context, '/word_add');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.settings_outlined),
-              title: Text('設定'),
-              onTap: () {
-                Navigator.pushNamed(context, '/settings');
-              },
-            ),
-          ],
-        ),
-      ),
+      endDrawer: const HamburgerMenu(),
       body: ListView(
         children: <Widget>[
           // Text('setting'),
@@ -269,7 +222,7 @@ class _SettingsViewState extends State<SettingsView> {
                     },
                     decoration: InputDecoration(
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)), 
-                      labelText: '60',
+                      labelText: '1', //TODO ちょっとここあとで考える
                       fillColor: Color.fromARGB(255, 255, 255, 255),
                       filled: true,
                       // suffixIcon: IconButton(
@@ -414,7 +367,9 @@ class _SettingsViewState extends State<SettingsView> {
                       style: TextStyle(color: Colors.blue),
                     ),
                 ),
+                
               ),
+              
               Positioned(
                 top: 425,
                 //right: 10,
