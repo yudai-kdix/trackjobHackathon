@@ -198,7 +198,7 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                                   right: 246,
                                   // width: 160.0,
                                   // height: 260.0,
-                                  child: ((flag_make_sense == true) || correct_tag == true) ? IconButton(
+                                  child: ((flag_make_sense == true) || correct_tag == false) ? IconButton(
                                     icon: Icon(
                                       correct_tag
                                           ? Icons.check_circle_outline
@@ -240,7 +240,7 @@ class _WordAnswerViewState extends State<WordAnswerView> {
                                   right: 100,
                                   // width: 160.0,
                                   // height: 260.0,
-                                  child: ((flag_make_sense == true) || irrcorrect_tag == true) ? IconButton(
+                                  child: ((flag_make_sense == true) || irrcorrect_tag == false) ? IconButton(
                                     icon: Icon(
                                       irrcorrect_tag
                                       ? Icons.announcement_outlined
