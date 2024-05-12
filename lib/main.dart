@@ -7,6 +7,7 @@ import 'package:trackjob2024/services/notification_word.dart';
 import 'package:trackjob2024/views/add_word_view.dart';
 import 'package:trackjob2024/views/question_list_view.dart';
 import 'package:trackjob2024/views/setting.dart';
+import 'package:trackjob2024/views/word_answer_view.dart';
 // import 'package:trackjob2024/views/settings_view.dart';
 import 'package:trackjob2024/views/word_detail_view.dart';
 import 'package:trackjob2024/views/word_answer_view.dart';
@@ -332,7 +333,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           children: [
                             TextSpan(
                               text:
-                                  '正解率: ${(snapshot.data!*100).floor()}', // 非同期で取得した値を表示
+                                  '正解率: ${(snapshot.data!*100).floor()}%', // 非同期で取得した値を表示
                               style: const TextStyle(
                                   color: Colors.black, fontSize: 13),
                             ),
@@ -341,22 +342,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                     }
                   },
-                ),
-              ),
-              Positioned(
-                top: 242,
-                right: -100,
-                width: 160.0,
-                height: 260.0,
-                child: RichText(
-                  text: const TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "%",
-                        style: TextStyle(color: Colors.black, fontSize: 13),
-                      ),
-                    ],
-                  ),
                 ),
               ),
               const Positioned(
@@ -400,18 +385,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                   width: 150,
                                   child: Center(
                                     child: Column(
+                                      mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        SizedBox(
-                                          height: 60,
-                                        ),
                                         //Text('${snapshot.data![index].term}'),
                                         RichText(
                                           text: TextSpan(
                                             children: [
-                                              TextSpan(text: ' '),
+                                              const TextSpan(text: ' '),
                                               TextSpan(
-                                                text: '${snapshot.data![index].term}',
-                                                style: TextStyle(color: Colors.black, fontSize: 22),
+                                                text: '$snapshot.data![index].term',
+                                                style: const TextStyle(color: Colors.black, fontSize: 22),
                                               ),
                                             ],
                                           ),
@@ -497,15 +480,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   child: const Icon(Icons.add),
-      //   onPressed: () => Navigator.pushNamed(context, '/word_add'),
-      // ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () => Navigator.pushNamed(context, '/word_add'),
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
-      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
