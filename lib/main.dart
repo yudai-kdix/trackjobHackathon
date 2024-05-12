@@ -7,6 +7,7 @@ import 'package:trackjob2024/services/notification_word.dart';
 import 'package:trackjob2024/views/add_word_view.dart';
 import 'package:trackjob2024/views/question_list_view.dart';
 import 'package:trackjob2024/views/setting.dart';
+import 'package:trackjob2024/views/word_answer_view.dart';
 // import 'package:trackjob2024/views/settings_view.dart';
 import 'package:trackjob2024/views/word_detail_view.dart';
 
@@ -332,7 +333,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           children: [
                             TextSpan(
                               text:
-                                  '正解率: ${(snapshot.data!*100).floor()}', // 非同期で取得した値を表示
+                                  '正解率: ${(snapshot.data!*100).floor()}%', // 非同期で取得した値を表示
                               style: const TextStyle(
                                   color: Colors.black, fontSize: 13),
                             ),
@@ -341,22 +342,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                     }
                   },
-                ),
-              ),
-              Positioned(
-                top: 242,
-                right: -100,
-                width: 160.0,
-                height: 260.0,
-                child: RichText(
-                  text: const TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "%",
-                        style: TextStyle(color: Colors.black, fontSize: 13),
-                      ),
-                    ],
-                  ),
                 ),
               ),
               const Positioned(
@@ -377,8 +362,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: LimitedBox(
                   maxWidth: 320,
                   maxHeight: 160,
-                  child: FutureBuilder<List<Tags>>(
-                    future: tags,
+                  child: FutureBuilder<List<Word>>(
+                    future: words,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         // List<int> id_box = [];
@@ -400,13 +385,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                   width: 150,
                                   child: Center(
                                     child: Column(
+                                      mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        const SizedBox(
-                                          height: 50,
-                                        ),
-                                        Text('${snapshot.data![index].name}'),
-                                        Text(
-                                            '${snapshot.data![index].countTrue}'),
+                                        // const SizedBox(
+                                        //   height:,
+                                        // ),
+                                        Text(snapshot.data![index].term),
+                                        // Text(
+                                        //     '${snapshot.data![index].countTrue}'),
                                       ],
                                     ),
                                   ),
@@ -486,15 +472,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   child: const Icon(Icons.add),
-      //   onPressed: () => Navigator.pushNamed(context, '/word_add'),
-      // ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () => Navigator.pushNamed(context, '/word_add'),
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
-      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
