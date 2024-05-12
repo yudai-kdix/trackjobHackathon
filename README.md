@@ -14,7 +14,7 @@ trackjobハッカソンで作成した単語暗記アプリです
     <img src="trackjob/IMG_4.png" width="300">
 </div>
 
-\
+
 ## 発表資料
 ![trackjobHackathon](trackjob/スライド1.jpeg)
 ![trackjobHackathon](trackjob/スライド2.jpeg)
